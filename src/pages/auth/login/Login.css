@@ -1,0 +1,63 @@
+.login {
+    border: 1px solid black;
+    min-width: 300px;
+    height: 300px;
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.label{
+    display: flex;
+    flex-direction: row;
+    margin: 15px 10px;
+    justify-content: space-around;
+    align-items: flex-end;
+}
+.label > svg {
+    font-size: 25px;
+
+}
+.input {
+    width: 100%;
+    border:none;
+    border-bottom: 1px solid gray;
+    height: 30px;
+    appearance: none;
+    outline: 0;
+    font-size: 17px;
+}
+.form {
+    width: 300px;
+}
+.form > div {
+    display: flex;
+    margin: 10px;
+}
+.form > form > span {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 10px;
+}
+.loginButton{
+    width: 70px;
+    align-self: center;
+}
+.recoveryPassword{
+    display: flex;
+    justify-content: flex-end;
+    color: blue;
+}
+.info {
+    width: 200px;
+    background: red;
+    height: 100%;
+}

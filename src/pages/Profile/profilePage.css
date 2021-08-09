@@ -1,0 +1,19 @@
+.profile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100%;
+    background: rgb(14, 63, 36);
+}
+.profile > div {
+    display: flex;
+    height: 100%;
+}
+.profile > div > div{
+    display: flex;
+    background: rgb(51, 58, 19);
+    height: 100%;
+}
+.lateral {
+    width: 200px;
+}
