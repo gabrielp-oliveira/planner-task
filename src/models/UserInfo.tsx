@@ -1,5 +1,5 @@
 export default interface userInfo {
-    dashboard?: [],
+    Planner?: [],
     name?: string,
     email?: string,
     tasks?: [],

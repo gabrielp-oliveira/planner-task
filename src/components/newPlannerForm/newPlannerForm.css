@@ -1,0 +1,57 @@
+.newPlanner {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    margin-top: 30px;
+
+}
+.newPlanner > a {
+    margin-bottom: 50px;
+}
+.newPlanner > div {
+    width: 500px;
+    align-self: center;
+}
+.newPlannerStage {
+    padding: 15px 0px;
+}
+.newPlannerStage > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.newPlannerStage > div > div{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin: 10px 0px;
+}
+.newPlannerStage > div > div >input, .newPlannerStage > div > div >textarea{
+    color: red;
+    align-self: flex-start;
+    border: none;
+    width: 70%;
+    font-size: 16px;
+    font-weight: 700;
+    
+}
+.newPlannerStage > div > div >input {
+    height: 40px;
+}
+.newPlannerStage > div > div >textarea {
+    resize: none;
+    height: 150px;
+  
+}
+.newPlannerStage > p {
+    display: flex;
+    justify-content: space-around;
+    
+
+}
+.participants {
+    border: 1px solid black;
+}

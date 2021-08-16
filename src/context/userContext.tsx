@@ -1,18 +1,14 @@
 import { createContext, useState, useEffect } from "react";
 import userauth from '../models/UserAuthModel'
 import api from '../api/api'
-
+import auth from '../utils/auth'
 export const UserContext = createContext({});
 
 export default function UserProvider({ children }: any) {
   const [userInfoContext, setUserInfoContext] = useState<userauth>();
 
   useEffect(() => {
-    api.get('/auth', {
-      params: {
-        id: localStorage.getItem('UserId')
-      }, headers: { authentication: `Bearer ${localStorage.getItem('token')}` }
-    })
+    auth
     .then((data) => {
       console.log(data.data)
       

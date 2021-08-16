@@ -1,11 +1,14 @@
 import React, {useEffect, useState, useContext} from 'react'
 import './profilePage.css'
 import userInfo from '../../models/UserInfo'
+import auth from '../../utils/auth'
 
-import {createBrowserHistory} from 'history'
 import { UserContext } from '../../context/userContext'
 import Header from '../../components/header/header'
+import ProfileBody from '../../components/profileBody/profileBody'
 
+import logout from '../../utils/logout'
+import SideBar from '../../components/sidebar/SideBar'
 
 function ProfilePage() {
     const { userInfoContext } = useContext<any>(UserContext)
@@ -13,7 +16,16 @@ function ProfilePage() {
 
 
     useEffect(() => {
-        setUserInfo(userInfoContext.userInfo)
+        auth.then((data) => {
+            console.log(data.data)
+            if (!data.data.error) {
+                setUserInfo(userInfoContext?.userInfo)
+            } else {
+              logout()
+            }
+          }).catch((data) => {
+            logout()
+          })
     }, [])
     
     return (
@@ -21,8 +33,8 @@ function ProfilePage() {
             <div className="profile">
             <Header></Header>
             <div>
-                <div className="lateral">lateral nav</div>
-                <main><h1>Welcome {userInfo?.name}</h1></main>
+                <SideBar></SideBar>
+                <ProfileBody></ProfileBody>
             </div>
 
         </div>

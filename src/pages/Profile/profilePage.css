@@ -3,7 +3,6 @@
     flex-direction: column;
     width: 100%;
     min-height: 100%;
-    background: rgb(14, 63, 36);
 }
 .profile > div {
     display: flex;
@@ -13,6 +12,8 @@
     display: flex;
     background: rgb(51, 58, 19);
     height: 100%;
+    width: 17%;
+    min-width: 200px;
 }
 .lateral {
     width: 200px;
