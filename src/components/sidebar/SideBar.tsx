@@ -4,24 +4,24 @@ import { UserContext } from '../../context/userContext'
 
 function SideBar() {
 
-    const { userInfoContext } = useContext<any>(UserContext)
-    const [userInfo, setUserInfo] = useState<any>()
+    const { userInfoContext, setUserInfoContext } = useContext<any>(UserContext)
     const [showPlanners, setShowPlanners] = useState<any>([])
 
     useEffect(() => {
-        setUserInfo(userInfoContext?.userInfo)
+        console.log("atualizado")
+        setShowPlanners([])
         userInfoContext?.userInfo?.planners?.forEach((element: any) => {
 
             setShowPlanners((oldArray: any) => [...oldArray,
             <li>
                 <Link
-                    to={`planner/id=${element.plannerId}`} key={element.plannerId}>
+                    to={`../planner/id=${element.plannerId}`} key={element.plannerId}>
                     {element.name}
                 </Link>
             </li>])
         })
 
-    }, [userInfoContext])
+    }, [userInfoContext, setUserInfoContext])
 
 
 

@@ -1,15 +1,23 @@
 .Planner {
-    width: max-content;
+    width: 100%;
     height: calc(100% - 80px);
     background: rgb(212, 0, 0);
     margin-top: 80px;
-    padding: 15px;
-    
+}
+.Planner > div {
+    display: flex;
+    height: 100%;
+    overflow-y: auto;
 }
 .column {
     display: flex;
     justify-content: space-around;
     height: 100%;
+    border: 1px solid white;
+    margin: 10px 0px;
+}
+.dragging {
+    background: yellow;
 }
 .column > div {
     margin: 10px 20px;

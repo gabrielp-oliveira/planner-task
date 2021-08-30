@@ -15,11 +15,7 @@ import { UserContext } from './context/userContext'
 import auth from './utils/auth'
 import logout from './utils/logout';
 
-const initialState = {
-  userId: '',
-  userValid: false,
-  token: ''
-}
+
 function App() {
   const { userInfoContext, setUserInfoContext } = useContext(UserContext)
 

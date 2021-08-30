@@ -6,10 +6,10 @@ function AddParticipants({ formInfo, stage, currentInfo }: any) {
 
     const email = useRef<any>(null);
     const acess = useRef<HTMLSelectElement>(null);
-    const [showParticipants, setShowParticipants] = useState<string[]>([])
     const [currentEmail, setCurrentEmail] = useState<string>('')
 
     function callNextStage() {
+        console.log(currentInfo)
         if (currentInfo?.length > 0) {
             stage(2)
         } else {
@@ -19,21 +19,22 @@ function AddParticipants({ formInfo, stage, currentInfo }: any) {
     function callPrecursorStage() {
         stage(0)
     }
-    useEffect(() => {
-        currentInfo.forEach((element: any) => {
-            setShowParticipants((oldArray: any) => [...oldArray, <span key={element.email}>{element.email}</span>])
+    function deletethis(ev: any) {
+        const newArray =  currentInfo.filter((element : any) => {
+                return element.email !== ev
         })
-        console.log(currentInfo)
-    }, [])
+        formInfo()
+        formInfo(newArray)
+    }
 
     function confirmUser() {
-        if (currentEmail.trim() !=='') {
+        if (currentEmail.trim() !== '') {
             api.post('/user/confirm', { email: currentEmail, userId: localStorage.getItem("UserId") })
                 .then((data: any) => {
-                    console.log(data.data)
+                    console.log(data.data.name)
                     if (!data.data.error) {
                         if (currentInfo.find((el: any) => el.email === currentEmail) === undefined) {
-                            setShowParticipants((oldArray: any) => [...oldArray, <span key={currentEmail}>{currentEmail}</span>])
+                            
                             formInfo((oldArray: any) => [...oldArray, {
                                 email: currentEmail,
                                 acess: acess.current?.value
@@ -51,7 +52,7 @@ function AddParticipants({ formInfo, stage, currentInfo }: any) {
                     email.current.value = ''
                     console.log(err)
                 })
-        }else{
+        } else {
             alert('por favor, preencha o campo do email do participante')
         }
 
@@ -74,10 +75,20 @@ function AddParticipants({ formInfo, stage, currentInfo }: any) {
                     </select>
                 </div>
             </div>
-            <p className="participants"> {showParticipants}</p>
+            <div className="participants">{currentInfo?.map((element: any) => {
+                return<div key={element.email}>
+                <div>
+                    <span>{element.email}</span>
+                    <span>{element.acess}</span>
+                </div>
+                <button onClick={() => deletethis(element.email)}>Remove</button>
+
+            </div>
+            })}</div>
             <button onClick={confirmUser}>add new user</button><br />
             <button onClick={callPrecursorStage}>Back</button>
             <button onClick={callNextStage}>Next</button>
+
         </div>
     )
 }
