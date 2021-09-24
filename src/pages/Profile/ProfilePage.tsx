@@ -21,10 +21,11 @@ function ProfilePage() {
             if (!data.data.error) {
                 setUserInfo(userInfoContext?.userInfo)
             } else {
-              logout()
+            //   logout()
             }
-          }).catch((data) => {
-            logout()
+          }).catch((error) => {
+              console.log(error)
+            // logout()
           })
     }, [])
     

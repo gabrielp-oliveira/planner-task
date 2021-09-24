@@ -10,13 +10,13 @@ export default function UserProvider({ children }: any) {
   useEffect(() => {
     auth
     .then((data) => {
-      console.log(data.data)
-      
       if(!data.data.error){
         setUserInfoContext(data.data)
       }else{
         console.log('.')
       }
+    })
+    .then(() => {
     })
   }, [])
 

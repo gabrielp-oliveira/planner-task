@@ -21,12 +21,12 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
                 }
             } else {
                 alert(data.data.error)
-                logout()
+                // logout()
             }
         }).catch((data) => {
             console.log(data)
             alert(data)
-            logout()
+            // logout()
         })
 
     }

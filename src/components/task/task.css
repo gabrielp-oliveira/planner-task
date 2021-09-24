@@ -1,0 +1,20 @@
+.taskCard {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid white;
+    height: 70px;
+    margin: 5px 0px;
+
+}
+
+.taskCard > span:last-child {
+    display: flex;
+    align-self: flex-end;
+}
+.taskCard > span:first-child {
+    display: flex;
+    align-self: flex-start;
+}
+.Task {
+    margin: 5px;
+}

@@ -25,17 +25,17 @@ function App() {
     if (localStorage.getItem('userValid')) {
         auth
         .then((data) => {
-          console.log(data.data)
+
           if (!data.data.error) {
 
             setUserInfoContext(data.data)
           } else {
             console.log('.')
-            logout()
+            // logout()
           }
         }).catch((data) => {
           console.log('.')
-          logout()
+          // logout()
         })
     }
   }, [])
