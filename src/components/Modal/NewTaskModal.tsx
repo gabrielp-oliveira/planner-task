@@ -1,11 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
+import './Modal.css'
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
-
-
-
 import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+
+import ErrorModal from './errrorModal';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 import logout from '../../utils/logout'
 import api from '../../api/api'
@@ -25,11 +29,14 @@ const style = {
 
 export default function NewTask({ getUsers, status, setStatus, Columnid, plannerId }: any) {
 
+    const [callError, setcallError] = useState<boolean>(false);
+    const [errorInfo, setErrorInfo] = useState<any>({ message: '' });
+    const [accountableList, setAccountableList] = useState<any>([]);
 
     interface Task {
         title?: string,
         description?: string,
-        accountable?: string
+        accountable?: [string]
     }
     interface User {
         name: string,
@@ -39,72 +46,119 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
 
 
 
-
     const [task, setTask] = useState<Task>()
     const [users, setUsers] = useState<[User]>()
 
 
     function closeModal() {
         setStatus(false)
+        setTimeout(() => {
+            const element: any = document.getElementsByClassName(Columnid)
+            element[0].children[0].style.border = "none"
+        }, 3000);
     }
     function createNewTask() {
-        api.post('/planner/newTask', {
+        api.post('/task/newTask', {
             params: {
                 title: task?.title,
                 desciption: task?.description,
-                accountable: task?.accountable,
+                accountable: accountableList,
                 plannerId: plannerId,
                 Columnid: Columnid
             }
         }).then((data) => {
-            console.log(data)
-            setTask({})
+            if (data.data.error) {
+                setcallError(true)
+                setErrorInfo({ message: data.data.error })
+            } else {
+                setTask({})
+
+            }
         })
+            .catch((error: any) => {
+                console.log(error)
+            })
 
 
     }
-    
+
     useEffect(() => {
         setUsers(getUsers)
     }, [getUsers])
+
+    function addAccountables(e: any) {
+        const arr = accountableList
+        if (arr?.indexOf(e.target.value) === -1) {
+            arr.push(e.target.value)
+            setAccountableList(arr)
+        }
+    }
+    function removeItemOnce( value: any) {
+
+        const array: any= []
+        accountableList.forEach((element: any) => {
+            if(element === value){
+                return
+            }else{
+                array.push(element)
+                setAccountableList(array)
+            }
+        })
+        if(accountableList.length === 1){
+            setAccountableList([])
+        }
+    }
+    
 
     return (
         <div>
             <Modal
                 open={status}
-                onClose={() => setStatus(false)}
+                onClose={closeModal}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
+                <Box  sx={style}   >
 
-                    <h3>New Task</h3>
+                    <h3 >New Task</h3>
                     <div>
-                        <TextField id="tasktitle" label="title" variant="outlined"
+                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+
+                        <TextField id="tasktitle" label="title" variant="outlined" style={{width: '48%'}}
                             onChange={(e) => setTask({
                                 description: task?.description,
                                 accountable: task?.accountable,
                                 title: e.target.value
                             })} />
-                        <TextField id="taskDesk" label="Description" variant="outlined"
+                        <TextField id="taskDesk" label="Description" variant="outlined" style={{width: '48%'}}
                             onChange={(e) => setTask({
                                 title: task?.title,
                                 accountable: task?.accountable,
                                 description: e.target.value
                             })}
-                        />
-                        <TextField select label="accountable" value={task?.accountable}
-                         helperText="Please select the accountable for this task."
-                        onChange={(e) => setTask({
-                            title: task?.title,
-                            description: task?.description,
-                            accountable: e.target.value
-                        })}
-                        >
-                            {users?.map((option) => (
-                                <option key={option.email} value={option.email}>
+                            />
+                            </div>
+
+                        <div className="accountableList">{accountableList.map((el: any) => <div >
+                            <span className="accountable">
+                                <span>{el}</span>&nbsp;&nbsp; <span className={el} onClick={() => removeItemOnce(el)}><FontAwesomeIcon icon={faTimesCircle}></FontAwesomeIcon></span>
+                            </span>
+                        </div>
+                        )}</div>
+
+                        <TextField select label="accountable" value={task?.accountable} fullWidth
+                            helperText="Please select the accountable for this task." >
+                            {getUsers?.map((option: any) => (
+                                <MenuItem 
+                                    onClick={(e: any) => {
+                                        if(accountableList?.indexOf(option.email) === -1){
+                                            setAccountableList(accountableList.concat(option.email))
+                                        }else{
+                                            return
+                                        }
+                                    }  }>
                                     {option.name}
-                                </option>
+                                </MenuItem>
                             ))}
                         </TextField>
                     </div>
@@ -116,6 +170,8 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
                     </div>
                 </Box>
             </Modal>
+            <ErrorModal status={callError} setStatus={setcallError} info={errorInfo} />
+
         </div>
     );
 }

@@ -9,23 +9,19 @@ import { faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd"
 
 import Task from '../task/task'
-import { PlannerContextProvider } from '../../context/plannerContext'
 
 function Column({ classN, refe, element, setDelModal, setTaskModal, setColumnId, setColumnName, canChange, setDestination }: any) {
     
     
     const [functions, setFunctions] = useState<any>('')
     const [tasksOrder, setTasksOrder] = useState<any>()
-    const { plannerInfoContext, setPlannerInfoContext } = useContext<any>(PlannerContextProvider)
 
     function deleteColumn(id: string, name: string) {
-
         setColumnId(id)
         setDelModal(true)
         setColumnName(name)
     }
     function addNewTask(id: string) {
-
         setTaskModal(true)
         setColumnId(id)
     }
@@ -51,14 +47,13 @@ function Column({ classN, refe, element, setDelModal, setTaskModal, setColumnId,
 
     const onDragEnd = (result: DropResult) => {
         const { source, destination } = result
-        setPlannerInfoContext(result)
+        console.log('?')
         if (!destination) return
         const items = Array.from(element?.tasks)
         const [newOrder] = items.splice(source.index, 1)
         items.splice(destination.index, 0, newOrder)
         element.tasks = items
         setTasksOrder(items)
-        console.log(plannerInfoContext)
     }
 
     return (
@@ -75,26 +70,23 @@ function Column({ classN, refe, element, setDelModal, setTaskModal, setColumnId,
 
             <div className="columnBody">
                 <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="task" direction="vertical">
+                    {/* <Droppable droppableId="task" direction="vertical">
                         {(provided) => (
                             <div  {...provided.droppableProps} ref={provided.innerRef}>
                                 {element?.tasks?.map((el: any, index: any) => {
                                     return (
-                                        <Draggable key={el._id} draggableId={el._id} index={index} >
 
-                                            {(provided, snapshot) => (
                                                 <Task info={el}
-                                                    classN={snapshot.isDragging ? "dragging Task" : "Tasks"}
+                                                    classN={"Tasks"}
                                                     refe={provided}
                                                     el={el}
                                                 />
-                                            )}
-                                        </Draggable>
+
                                     )
                                 })}
                             </div>
                         )}
-                    </Droppable>
+                    </Droppable> */}
                 </DragDropContext>
             </div>
         </div>

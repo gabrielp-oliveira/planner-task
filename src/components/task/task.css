@@ -1,20 +1,26 @@
 .taskCard {
     display: flex;
     flex-direction: column;
-    border: 1px solid white;
+    border: 1px solid none;
     height: 70px;
-    margin: 5px 0px;
-
+    padding: 16;
+    margin: 0 0 8px 0;
+    background-color: #456C86;
+    color: white;
+    transition-delay: 1s;
 }
-
 .taskCard > span:last-child {
-    display: flex;
+    font-size: 12px;
     align-self: flex-end;
+    margin-right: 10px;
 }
-.taskCard > span:first-child {
-    display: flex;
-    align-self: flex-start;
+
+
+.draggble {
+    background-color: rgba(128, 147, 199, 0.2);
+
 }
-.Task {
-    margin: 5px;
+.taskUpdated{
+    border: 1px solid rgb(0, 248, 12);    
+
 }

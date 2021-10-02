@@ -56,7 +56,7 @@ export default function NewColumnModal({ status, setStatus ,plannerId }: any) {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
+                <Box sx={style} >
 
                     <h3>New Column</h3>
 

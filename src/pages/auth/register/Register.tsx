@@ -24,14 +24,12 @@ function Register() {
         })
         api.post(auth, userInfo)
         .then((data) => {
-            if (data.data.userValid) {
                 localStorage.setItem('token', data.data.token)
                 localStorage.setItem('UserId', data.data.UserId)
-                localStorage.setItem('userValid', data.data.userValid)
                 // setUserInfoContext(data.data)
                 createBrowserHistory().push('/profile')
                 document.location.reload();
-            }
+            
         })
         .catch(() => {
             console.log('??')

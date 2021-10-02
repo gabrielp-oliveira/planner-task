@@ -32,15 +32,12 @@ function Login() {
             password: password.current?.value.trim()
         })
         .then((data) => {
-            console.log(data)
-            if (data.data.userValid) {
-                setUserInfoContext(data.data.userValid)
+                // setUserInfoContext(data.data.userValid)
                 localStorage.setItem('token', data.data.token)
                 localStorage.setItem('UserId', data.data.UserId)
-                localStorage.setItem('userValid', data.data.userValid)
                 createBrowserHistory().push('/profile')
                 document.location.reload();
-            }
+            
         })
         .catch((err) => {
             console.log(err)

@@ -1,0 +1,73 @@
+.taskModal {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 24;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.taskModalHeader {
+    display: flex;
+    justify-content: space-between;
+}
+.taskModalHeader > div:first-child{
+    display: flex;
+    flex-direction: column;
+}
+.taskModalHeader > div:first-child > p {
+    display: flex;
+    flex-direction: row;
+}
+
+.taskModalBody{
+    display: flex;
+    flex-direction: column;
+}
+.pencil{
+    align-self: flex-end;
+    color: rgb(61, 111, 204);
+    font-size: 20px;
+}
+
+.accountableList {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+.accountable {
+    border: 1px solid rgb(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 2px 7px;
+    height: 30px;
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    margin: 5px 5px 0px 0px;
+
+
+}
+.accountable > span:first-child {
+    margin-right: 5px;
+}
+
+.accountable > span:last-child {
+    color: red;
+    font-size: 18px;
+    cursor: pointer;
+}
+.taskModalButtons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.infoModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600;
+    background-color: white;
+    border: 2px solid #000;
+    box-shadow: 24px;
+    padding: 4px;
+}

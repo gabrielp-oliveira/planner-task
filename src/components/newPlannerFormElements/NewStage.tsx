@@ -109,7 +109,7 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
                                     return (
                                         <Draggable key={StageName} draggableId={StageName} index={index}>
                                             {(provided, snapshot) => (
-                                                <div className={snapshot.isDragging? "dragging column" : "column"}
+                                                <div className={snapshot.isDragging? "dragging " : ""}
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}

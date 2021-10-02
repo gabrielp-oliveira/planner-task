@@ -22,12 +22,11 @@ function App() {
 
   useEffect(() => {
 
-    if (localStorage.getItem('userValid')) {
         auth
         .then((data) => {
 
           if (!data.data.error) {
-
+            console.log(data.data)
             setUserInfoContext(data.data)
           } else {
             console.log('.')
@@ -37,7 +36,7 @@ function App() {
           console.log('.')
           // logout()
         })
-    }
+    
   }, [])
 
   return (
@@ -57,7 +56,7 @@ function App() {
 
           <Route path="/" exact component={HomePage} />
           <Route path="/planner" exact component={HomePage} />
-          <Route path="/confirmaionpassword" component={Confirmation} />
+          <Route path="/confirmationpassword" component={Confirmation} />
 
           <ProtectedRouter path="/planner/id=:id"
             Comp={Planner} isAuth={localStorage.getItem('userValid')} redirect="/" />
