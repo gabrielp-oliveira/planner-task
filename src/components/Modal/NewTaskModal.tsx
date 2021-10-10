@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState,  useEffect } from 'react';
 import './Modal.css'
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -6,7 +6,7 @@ import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import ErrorModal from './errrorModal';
+import ErrorModal from './errorModal';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
@@ -19,9 +19,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 600,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    width: 650,
     boxShadow: 24,
     p: 4,
 };
@@ -30,7 +28,7 @@ const style = {
 export default function NewTask({ getUsers, status, setStatus, Columnid, plannerId }: any) {
 
     const [callError, setcallError] = useState<boolean>(false);
-    const [errorInfo, setErrorInfo] = useState<any>({ message: '' });
+    const [errorInfo, setErrorInfo] = useState<any>('');
     const [accountableList, setAccountableList] = useState<any>([]);
 
     interface Task {
@@ -39,9 +37,9 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
         accountable?: [string]
     }
     interface User {
-        name: string,
-        email: string,
-        _id: string
+        name?: string,
+        email?: string,
+        _id?: string
     }
 
 
@@ -52,10 +50,6 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
 
     function closeModal() {
         setStatus(false)
-        setTimeout(() => {
-            const element: any = document.getElementsByClassName(Columnid)
-            element[0].children[0].style.border = "none"
-        }, 3000);
     }
     function createNewTask() {
         api.post('/task/newTask', {
@@ -69,14 +63,16 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
         }).then((data) => {
             if (data.data.error) {
                 setcallError(true)
-                setErrorInfo({ message: data.data.error })
+                setErrorInfo(data.data.error)
             } else {
                 setTask({})
-
+                closeModal()
+                setUsers([{}])
+                setAccountableList([])
             }
         })
-            .catch((error: any) => {
-                console.log(error)
+        .catch((error: any) => {
+            setErrorInfo(error)
             })
 
 
@@ -86,29 +82,23 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
         setUsers(getUsers)
     }, [getUsers])
 
-    function addAccountables(e: any) {
-        const arr = accountableList
-        if (arr?.indexOf(e.target.value) === -1) {
-            arr.push(e.target.value)
-            setAccountableList(arr)
-        }
-    }
-    function removeItemOnce( value: any) {
 
-        const array: any= []
+    function removeItemOnce(value: any) {
+
+        const array: any = []
         accountableList.forEach((element: any) => {
-            if(element === value){
+            if (element === value) {
                 return
-            }else{
+            } else {
                 array.push(element)
                 setAccountableList(array)
             }
         })
-        if(accountableList.length === 1){
+        if (accountableList.length === 1) {
             setAccountableList([])
         }
     }
-    
+
 
     return (
         <div>
@@ -118,26 +108,27 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box  sx={style}   >
+                <Box sx={style} className="taskModal" >
 
                     <h3 >New Task</h3>
+                    <br />
                     <div>
-                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-                        <TextField id="tasktitle" label="title" variant="outlined" style={{width: '48%'}}
-                            onChange={(e) => setTask({
-                                description: task?.description,
-                                accountable: task?.accountable,
-                                title: e.target.value
-                            })} />
-                        <TextField id="taskDesk" label="Description" variant="outlined" style={{width: '48%'}}
-                            onChange={(e) => setTask({
-                                title: task?.title,
-                                accountable: task?.accountable,
-                                description: e.target.value
-                            })}
+                            <TextField id="tasktitle" label="title" variant="outlined" style={{ width: '48%' }}
+                                onChange={(e) => setTask({
+                                    description: task?.description,
+                                    accountable: task?.accountable,
+                                    title: e.target.value
+                                })} />
+                            <TextField id="taskDesk" label="Description" variant="outlined" style={{ width: '48%' }}
+                                onChange={(e) => setTask({
+                                    title: task?.title,
+                                    accountable: task?.accountable,
+                                    description: e.target.value
+                                })}
                             />
-                            </div>
+                        </div>
 
                         <div className="accountableList">{accountableList.map((el: any) => <div >
                             <span className="accountable">
@@ -149,24 +140,27 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
                         <TextField select label="accountable" value={task?.accountable} fullWidth
                             helperText="Please select the accountable for this task." >
                             {getUsers?.map((option: any) => (
-                                <MenuItem 
+                                <MenuItem
                                     onClick={(e: any) => {
-                                        if(accountableList?.indexOf(option.email) === -1){
+                                        if (accountableList?.indexOf(option.email) === -1) {
                                             setAccountableList(accountableList.concat(option.email))
-                                        }else{
+                                        } else {
                                             return
                                         }
-                                    }  }>
+                                    }}>
                                     {option.name}
                                 </MenuItem>
                             ))}
                         </TextField>
                     </div>
 
-                    {/* <hr /><br /> */}
-                    <div>
-                        <Button variant="contained" color="primary" onClick={createNewTask}>Confirm</Button>
-                        <Button variant="contained" color="secondary" onClick={closeModal} >cancel</Button>
+                    <br />
+                    <div className="taskModalButtons">
+                        <div>
+                            <Button variant="contained" color="primary" onClick={createNewTask}>Confirm</Button>
+                            <Button variant="contained" color="secondary" onClick={closeModal} >cancel</Button>
+                        </div>
+                        <div></div>
                     </div>
                 </Box>
             </Modal>

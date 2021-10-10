@@ -57,11 +57,8 @@ function NewPlannerForm() {
 
 
     return (
-        <div className="newPlanner">
-            <Link to="/profile"> return to profile page</Link>
-            
+        <div className="newPlanner">           
             <div>{formComponents[currentStep]}</div>
-
         </div>
     )
 }

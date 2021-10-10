@@ -7,6 +7,7 @@ import ProtectedRouter from '../../utils/ProtectedRouter';
 import NewPlannerForm from '../newPlannerForm/newPlannerForm';
 
 import { UserContext } from '../../context/userContext'
+import api from '../../api/api';
 
 function ProfileBody() {
 
@@ -26,10 +27,10 @@ function ProfileBody() {
                 <Switch>
 
                     <ProtectedRouter path="/profile/newPlanner"
-                        Comp={NewPlannerForm} isAuth={localStorage.getItem('userValid')} redirect="/" />
+                        Comp={NewPlannerForm} isAuth={true} redirect="/" />
 
                     <ProtectedRouter path="/profile/"
-                        Comp={Welcome} isAuth={localStorage.getItem('userValid')} redirect="/" />
+                        Comp={Welcome} isAuth={true} redirect="/" />
                 </Switch>
 
             </Router>
@@ -40,11 +41,21 @@ function ProfileBody() {
 export default ProfileBody
 
 
-const Welcome = () => {
+const Welcome = ({name, email}: any) => {
+
+    const { userInfoContext } = useContext<any>(UserContext)
+
+    useEffect(() => {
+        api.get('/task/userTasks', {
+            params: {
+                userEmail: userInfoContext?.userInfo?.email
+            }
+        })
+    }, [])
     return (
         <div>
-            welcome to your profile!<br />
-            <Link to="/profile/newPlanner"> criar novo planner</Link>
+            welcome, {userInfoContext?.userInfo.name}.<br />
+            <Link to="/profile/newPlanner"> New planner</Link>
 
         </div>
     )

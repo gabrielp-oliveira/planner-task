@@ -7,6 +7,9 @@ export default function TextAbstract(text, length) {
     }
     text = text.substring(0, length);
     const last = text.lastIndexOf(" ");
-    text = text.substring(0, last);
-    return text + "...";
+    if(last !== -1){
+        return text.substring(0, last) + "...";
+    }else{
+        return text.substring(0, length) + '...'
+    }
 }

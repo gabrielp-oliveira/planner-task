@@ -1,69 +1,150 @@
 import React, { useEffect, useState, useRef, useContext } from 'react'
+import '../login/Login.css'
 import RegisterModel from '../../../models/RegisterModel'
 import api from '../../../api/api'
-import {Link} from 'react-router-dom'
-import { UserContext, } from '../../../context/userContext'
-import { createBrowserHistory } from 'history';
+import auth from '../../../utils/auth'
+import { Link } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 
-const auth = '/auth/register'
+import Box from '@material-ui/core/Box';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import ErrorModal from '../../../components/Modal/errorModal';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import { faEnvelope, faUnlock, faUserAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Register() {
     const [userInfo, setUserInfo] = useState<RegisterModel>()
-    const email = useRef<HTMLInputElement>(null);
-    const password = useRef<HTMLInputElement>(null);
-    const password2 = useRef<HTMLInputElement>(null);
-    const name = useRef<HTMLInputElement>(null);
-    // const { userInfoContext, setUserInfoContext } = useContext<any>(UserContext)
+    const email = useRef<any>(null);
+    const password = useRef<any>(null);
+    const password2 = useRef<any>(null);
+    const name = useRef<any>(null);
+    const history = useHistory();
 
-    function register (e: any){
+    const [callErrorModal, setCallErrorModal] = useState<boolean>()
+    const [errorInfo, setErrorInfo] = useState<string>()
+    const [loading, setloading] = useState<boolean>(false)
+
+    function register(e: any) {
         e.preventDefault()
+        setloading(true)
+        const emailValue = email.current?.children[1].children[0]?.value.trim()
+        const nameValue = name.current?.children[1].children[0]?.value.trim()
+        const passwordValue1 = password.current?.children[1].children[0]?.value.trim()
+        const passwordValue2 = password2.current?.children[1].children[0]?.value.trim()
+
+        if(
+            emailValue === '' &&
+            nameValue === '' &&
+            passwordValue1 === '' &&
+            passwordValue2 === ''){
+            setCallErrorModal(true)
+            setErrorInfo('please fill in the details below.')
+            setloading(false)
+            return
+        }
+        if (
+            emailValue === '' ||
+            nameValue === '' ||
+            passwordValue1 === '' ||
+            passwordValue2 === '') {
+            setCallErrorModal(true)
+            setErrorInfo('some input is empty, please fill all the data.')
+            setloading(false)
+            return
+        }if(passwordValue1 !==passwordValue2){
+            setCallErrorModal(true)
+            setErrorInfo('passwords are not compatible.')
+            setloading(false)
+            return
+        }
+        if(passwordValue1.length < 8){
+            setCallErrorModal(true)
+            setErrorInfo('must be greater than 8 characters.')
+            setloading(false)
+            return
+        }
         setUserInfo({
-            email: email.current?.value.trim() || '',
-            password: password.current?.value.trim() || '',
-            name: name.current?.value.trim() || ''
+            email: emailValue,
+            password: passwordValue1,
+            name: emailValue
         })
-        api.post(auth, userInfo)
-        .then((data) => {
-                localStorage.setItem('token', data.data.token)
-                localStorage.setItem('UserId', data.data.UserId)
-                // setUserInfoContext(data.data)
-                createBrowserHistory().push('/profile')
-                document.location.reload();
-            
-        })
-        .catch(() => {
-            console.log('??')
-            alert('error')
-        }) 
+        api.post('/auth/register', userInfo)
+            .then((data) => {
+                if (!data.data.error) {
+                    localStorage.setItem('token', data.data.token)
+                    localStorage.setItem('UserId', data.data.UserId)
+                    history.push('/profile')
+                    document.location.reload();
+                    setloading(false)
+                } else {
+                    setCallErrorModal(true)
+                    setErrorInfo(data.data.error)
+                    setloading(false)
+                }
+            })
+            .catch((error) => {
+                setCallErrorModal(true)
+                setErrorInfo(error)
+                setloading(false)
+            })
     }
 
-    useEffect(() => {
-        email.current?.select()
-    }, [])
 
     return (
-        <div className="register">
-            <button><Link to="/login">Login</Link> </button>
-            <form onSubmit={e => register(e)}>
+        <>
+            <div className="HomePageHeader">
+                <Link to="/">Home Page</Link>
                 <div>
-                    <label htmlFor="">Email</label>
-                    <input type="text" ref={email}/>
+                    <Link to="/login">log in</Link>
+                    <Link to="/register">register</Link>
                 </div>
-                <div>
-                    <label htmlFor="" >name</label>
-                    <input type="text" ref={name}/>
-                </div>
-                <div>
-                    <label htmlFor="" >password</label>
-                    <input type="text" ref={password}/>
-                </div>
-                <div>
-                    <label htmlFor="" >repeat</label>
-                    <input type="text" ref={password2}/>
-                </div>
-                <button>Register</button>  
-            </form>
-        </div>
+            </div>
+            {!loading? <div className="login">
+                <form onSubmit={e => register(e)}>
+                    <div className="form">
+
+                        <div>
+                            <span>Register</span>
+                        </div>
+
+
+                        <div className="label">
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end' }} className="input">
+                                <FontAwesomeIcon icon={faEnvelope} />
+                                <TextField id="input-with-sx" label="Email" variant="standard" ref={email} fullWidth type="email"/>
+                            </Box>
+                        </div>
+
+                        <div className="label">
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end' }} className="input">
+                                <FontAwesomeIcon icon={faUserAlt} />
+                                <TextField id="input-with-sx" label="Name" variant="standard" ref={name} fullWidth />
+                            </Box>
+                        </div>
+                        <div className="label">
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end' }} className="input">
+                                <FontAwesomeIcon icon={faUnlock} />
+                                <TextField id="input-with-sx" label="Password" variant="standard" ref={password} fullWidth type="password"/>
+                            </Box>
+                        </div>
+                        <div className="label">
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end' }} className="input">
+                                <FontAwesomeIcon icon={faUnlock} />
+                                <TextField id="input-with-sx" label="Repeat Password" variant="standard" ref={password2} fullWidth type="password"/>
+                            </Box>
+                        </div>
+                        <br />
+                        <Button className="loginButton" type="submit" variant="contained" color="primary">Register</Button>
+                    </div>
+                </form>
+            </div> : <CircularProgress style={{alignSelf: 'center', marginTop: '50px'}}/>}
+            <ErrorModal status={callErrorModal} setStatus={setCallErrorModal} info={errorInfo} />
+            
+
+        </>
     )
 }
 

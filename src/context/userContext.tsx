@@ -5,7 +5,7 @@ import auth from '../utils/auth'
 export const UserContext = createContext({});
 
 export default function UserProvider({ children }: any) {
-  const [userInfoContext, setUserInfoContext] = useState<userauth>();
+  const [userInfoContext, setUserInfoContext] = useState<any>();
 
   useEffect(() => {
     auth

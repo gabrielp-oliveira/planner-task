@@ -1,12 +1,16 @@
 .login {
-    border: 1px solid black;
+    border: 1px solid rgb(0, 0, 0, 0.3);
     min-width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 320px;
     align-self: center;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-top: 30px;
+    border-radius: 10px;
+    background-color: rgb(0, 0, 0, 0.1);
 }
 .form {
     height: 100%;
@@ -17,18 +21,24 @@
 .label{
     display: flex;
     flex-direction: row;
-    margin: 15px 10px;
+    margin: 20px 10px;
     justify-content: space-around;
     align-items: flex-end;
 }
-.label > svg {
-    font-size: 25px;
+.label  svg {
+    font-size: 30px;
+    margin-right: 10px;
+    color: rgb(37, 37, 37);
+    border: 1px solid black;
+    padding: 3px;
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
 
 }
 .input {
     width: 100%;
     border:none;
-    border-bottom: 1px solid gray;
     height: 30px;
     appearance: none;
     outline: 0;
@@ -41,6 +51,9 @@
     display: flex;
     margin: 10px;
 }
+.form > div:first-child {
+    font-size: 20px;
+}
 .form > form > span {
     display: flex;
     flex-direction: column;
@@ -48,16 +61,11 @@
     margin: 10px;
 }
 .loginButton{
-    width: 70px;
+    width: 100px;
     align-self: center;
 }
 .recoveryPassword{
     display: flex;
     justify-content: flex-end;
     color: blue;
-}
-.info {
-    width: 200px;
-    background: red;
-    height: 100%;
 }

@@ -1,20 +1,28 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import TextField from '@material-ui/core/TextField';
+
+import { faForward, faBackward } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from '@material-ui/core/Button';
+import ErrorModal from '../Modal/errorModal';
 
 function PlannerStart({ formInfo, stage, currentInfo }: any) {
 
     const plaannerName = useRef<HTMLInputElement>(null);
-    const plannerDescription = useRef<HTMLTextAreaElement>(null);
+    const plannerDescription = useRef<HTMLInputElement>(null);
     const [info, setInfo] = useState<any>({ plannerDescription: '', plaannerName: '' })
+    const [errorInfo, setErrorInfo] = useState<string>()
+    const [callError, setCallError] = useState<boolean>()
 
     function callNextStage() {
 
-        if (info.plannerDescription?.trim() !== '' &&
-            info.plaannerName?.trim() !== '') {
+        if ( info.plaannerName?.trim() !== '') {
             formInfo(info)
             stage(1)
         } else {
-            alert('deu ruim, start')
+            setErrorInfo('field name cannot be empty, fill in correctly.')
+            setCallError(true)
         }
     }
     useEffect(() => {
@@ -29,25 +37,38 @@ function PlannerStart({ formInfo, stage, currentInfo }: any) {
 
                 <div>
                     <div>
-                        <input type="text" ref={plaannerName} placeholder="Planner Name"
+                        <TextField id="standard-basic" label="Planner Name" 
+                            fullWidth
+                            ref={plaannerName}
                             value={info?.plaannerName} onChange={(e) => setInfo({
                                 plaannerName: e.target.value,
                                 plannerDescription: info.plannerDescription
                             })} />
+
                     </div>
                     <div>
-                        <textarea ref={plannerDescription} placeholder="Planner Description"
+                        <TextField
+                            id="outlined-multiline-static"
+                            label="Description"
+                            multiline fullWidth
+                            rows={4}
+                            defaultValue={info?.plannerDescription}
+                            ref={plannerDescription} 
                             value={info?.plannerDescription} onChange={(e) => setInfo({
                                 plannerDescription: e.target.value,
-                                plaannerName: info.plaannerName
-                            })} />
+                                plaannerName: info.plaannerName})}
+                        />
+
                     </div>
                 </div>
-            <p>
-                <button><Link to="/profile">back to profile</Link></button>
-                <button onClick={callNextStage}>Next</button>
-            </p>
+                <p>
+                    <Link to="/profile"><Button >
+                    <FontAwesomeIcon icon={faBackward} />
+                        </Button></Link>
+                    <Button onClick={callNextStage}><FontAwesomeIcon icon={faForward} /></Button>
+                </p>
             </div>
+            <ErrorModal status={callError} setStatus={setCallError} info={errorInfo}/>
         </>
     )
 }

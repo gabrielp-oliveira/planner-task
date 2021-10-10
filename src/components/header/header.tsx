@@ -1,8 +1,9 @@
 import React from 'react'
 import './header.css'
 import { Link } from 'react-router-dom'
-import { faCog } from '@fortawesome/free-solid-svg-icons'
+import { faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from '@material-ui/core/Button';
 
 import logout from '../../utils/logout';
 
@@ -10,15 +11,15 @@ function header() {
 
     return (
 
-        <header>
-            <div>
+        <header className='navHeader'>
+            <p>
                 <span><Link to="/">Home</Link></span>
-            </div>
+            </p>
             <div>
-                <button onClick={() => logout()}>logout</button>
-                <FontAwesomeIcon icon={faCog} />
-
-                </div>
+                <Button onClick={() => logout()}>
+                    <FontAwesomeIcon icon={faSignOutAlt} />
+                </Button>
+            </div>
         </header>
     )
 }

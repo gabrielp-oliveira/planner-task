@@ -5,13 +5,21 @@
     justify-content: space-between;
     align-items: center;
     padding: 0px 20px;
-}
-.navHeader > p > a {
+    margin-top: -1px;
+    background: linear-gradient(rgb(47, 41, 112) 0%, rgb(23, 18, 69) 100%);    box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.4);
+  }
+  .navHeader  a {
+  color: white;
   text-decoration: none;
-  color: black;
   font-size: 20px;
   font-weight: 500;
+  
 }
+.navHeader > div svg{
+  color: white;
+  font-size: 18px;
+}
+
 .navHeader > p > a:hover {
   text-decoration: underline;
 }

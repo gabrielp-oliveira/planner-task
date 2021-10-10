@@ -3,6 +3,7 @@ import './App.css'
 import Login from './pages/auth/login/Login';
 import Register from './pages/auth/register/Register';
 import Planner from './pages/planner/Planner';
+import InfoPage from './pages/info/infoPage'
 import Profile from './pages/Profile/ProfilePage';
 import Forgot from './pages/auth/ForgotPassword/Forgot'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
@@ -19,25 +20,26 @@ import logout from './utils/logout';
 function App() {
   const { userInfoContext, setUserInfoContext } = useContext(UserContext)
 
+  const [acess, setAcess] = useState();
 
   useEffect(() => {
 
+        const userValid = {userValid: false}
         auth
         .then((data) => {
-
+          
           if (!data.data.error) {
-            console.log(data.data)
             setUserInfoContext(data.data)
+            setAcess(true)
           } else {
-            console.log('.')
-            // logout()
+            setAcess(false)
           }
         }).catch((data) => {
-          console.log('.')
-          // logout()
+          setAcess(false)
+          setUserInfoContext(userValid)
         })
     
-  }, [])
+  }, [setUserInfoContext])
 
   return (
     <div className="App">
@@ -45,24 +47,23 @@ function App() {
         <Switch>
 
           <ProtectedRouter path="/register"
-            Comp={Register} isAuth={!localStorage.getItem('userValid')} redirect="profile" />
+            Comp={Register} isAuth={!acess} redirect="/" />
 
           <ProtectedRouter path="/login"
-            Comp={Login} isAuth={!localStorage.getItem('userValid')} redirect="profile" />
+            Comp={Login} isAuth={!acess} redirect="/" />
 
           <ProtectedRouter path="/forgotpassword"
-            Comp={Forgot} isAuth={!localStorage.getItem('userValid')} redirect="profile" />
+            Comp={Forgot} isAuth={!acess} redirect="/" />
 
 
           <Route path="/" exact component={HomePage} />
-          <Route path="/planner" exact component={HomePage} />
-          <Route path="/confirmationpassword" component={Confirmation} />
+          <Route path="/profile" exact component={Profile} />
+
+          <ProtectedRouter path="/planner/id=:id/info"
+            Comp={InfoPage} isAuth={acess} redirect="/" />
 
           <ProtectedRouter path="/planner/id=:id"
-            Comp={Planner} isAuth={localStorage.getItem('userValid')} redirect="/" />
-
-            <ProtectedRouter path="/profile" render={(props) => {return props}}
-              Comp={Profile} isAuth={localStorage.getItem('userValid')} redirect="/login" />
+            Comp={Planner} isAuth={acess} redirect="/" />
 
         </Switch>
 

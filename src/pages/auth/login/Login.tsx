@@ -1,82 +1,112 @@
-import React, { useEffect, useState, useRef, useContext } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import './Login.css'
+
 import { } from '@fortawesome/fontawesome-svg-core';
 import { faEnvelope, faUnlock } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Link } from 'react-router-dom'
 import api from '../../../api/api'
+import auth from '../../../utils/auth'
 
-import { UserContext, } from '../../../context/userContext'
+import Box from '@material-ui/core/Box';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-import './Login.css'
-import { createBrowserHistory } from 'history';
+import ErrorModal from '../../../components/Modal/errorModal';
 
-const auth = '/auth/login'
+import { useHistory } from "react-router-dom";
 
 function Login() {
-    const email = useRef<HTMLInputElement>(null);
-    const password = useRef<HTMLInputElement>(null);
-
-    const { userInfoContext, setUserInfoContext } = useContext<any>(UserContext)
-
-    useEffect(() => {
-        email.current?.select()
-    }, [])
-
+    const email = useRef<any>(null);
+    const password = useRef<any>(null);
+    const history = useHistory();
+    const [callErrorModal, setCallErrorModal] =useState<boolean>()
+    const [errorInfo, setErrorInfo] =useState<string>()
+    const [loading, setloading] = useState<boolean>(false)
 
 
     function login(e: any): void {
         e.preventDefault()
-        api.post(auth, {
-            email: email.current?.value.trim(),
-            password: password.current?.value.trim()
-        })
-        .then((data) => {
-                // setUserInfoContext(data.data.userValid)
-                localStorage.setItem('token', data.data.token)
-                localStorage.setItem('UserId', data.data.UserId)
-                createBrowserHistory().push('/profile')
-                document.location.reload();
-            
-        })
-        .catch((err) => {
-            console.log(err)
-            alert('error')
-        })
- 
-
+        setloading(true)
+        const emailValue = email.current?.children[1].children[0]?.value.trim()
+        const passwordValue = password.current?.children[1].children[0]?.value.trim()
+        if (emailValue !== '' && passwordValue !== '') {
+            api.post('/auth/login', {
+                email: emailValue,
+                password: passwordValue
+            })
+                .then((data) => {
+                    if(!data.data.error){
+                        localStorage.setItem('token', data.data.token)
+                        localStorage.setItem('UserId', data.data.UserId)
+                    }else{
+                        setCallErrorModal(true)
+                        setErrorInfo(data.data.error)
+                        setloading(false)
+                    }
+                })
+                .then(() => {
+                    history.push('/profile')
+                    document.location.reload(); 
+                })
+                .catch((error) => {
+                    setCallErrorModal(true)
+                    setErrorInfo(error)
+                    setloading(false)
+                })
+        } else {
+            setCallErrorModal(true)
+            setErrorInfo('some input is empty, please fill all the data.')
+        }
     }
 
 
     return (
-        <div className="login">
-            <div className="form">
+        <>
+            <div className="HomePageHeader">
+                <Link to="/">Home Page</Link>
                 <div>
-                    <span>Log In</span>
-                    <Link to="/register"><button>register</button></Link>
+                    <Link to="/login">log in</Link>
+                    <Link to="/register">register</Link>
                 </div>
-                <form onSubmit={e => login(e)}>
-                    <div className="label">
-                        <FontAwesomeIcon icon={faEnvelope} />
-                        <input type="text" name="email" ref={email} className="input" />
+            </div>
+            {!loading? <div className="login">
+                <div className="form">
+                    <div>
+                        <span>Log In</span>
                     </div>
-                    <div className="label">
-                        <FontAwesomeIcon icon={faUnlock} />
-                        <input type="password" name="password" ref={password} className="input" />
-                    </div>
+                    <form onSubmit={e => login(e)}>
+                        <div className="label">
 
-                    <span>
-                        <button className="loginButton">Login</button>
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end' }} className="input">
+                                <FontAwesomeIcon icon={faEnvelope} />
+                                <TextField id="input-with-sx" label="Email" variant="standard" ref={email} fullWidth />
+                            </Box>
+
+                        </div>
+                        <div className="label">
+
+                            <Box sx={{ display: 'flex', alignItems: 'flex-end' }} className="input">
+                                <FontAwesomeIcon icon={faUnlock} />
+                                <TextField id="input-with-sx" label="Password" variant="standard" ref={password} fullWidth />
+                            </Box>
+
+                        </div>
+
+                        <span>
+                            <Button className="loginButton" type="submit" variant="contained" color="primary">Login</Button>
+                        </span>
+                    </form>
+                    <span className="recoveryPassword">
+                        <Link to="/forgotpassword">Forgot your password?</Link>
                     </span>
-                </form>
-                <span className="recoveryPassword">
-                    <Link to="/forgotpassword">Forgot your password?</Link>
-                </span>
-            </div>
-            <div className="info">
-                alo
-            </div>
-        </div>
+                </div> 
+            </div> : <CircularProgress style={{alignSelf: 'center', marginTop: '50px'}}/>}
+            <ErrorModal status={callErrorModal} setStatus={setCallErrorModal} info={errorInfo}/>
+
+        </>
     )
 }
 

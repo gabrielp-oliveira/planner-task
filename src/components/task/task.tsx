@@ -4,7 +4,7 @@ import './task.css'
 import stringFormat from '../../utils/stringFormat'
 import FormatDate from '../../utils/formatDate'
 
-function Task({ info, classN, refe, el, users}: any) {
+function Task({ info, classN, refe,  users}: any) {
 
     const [date, setDate] = useState<string>()
     const [dateDetails, setDateDetails] = useState<string>()
@@ -20,7 +20,6 @@ function Task({ info, classN, refe, el, users}: any) {
         const minutes = teste.getMinutes()
         setDateDetails(`${hours}:${minutes}`)
         setDate(`${year}-${month}-${day}`)
-
     }, [info])
 
     function TaskInfoDetails(taskId: string) {
@@ -35,9 +34,9 @@ function Task({ info, classN, refe, el, users}: any) {
                 ref={refe?.innerRef}
                 {...refe?.draggableProps}
                 {...refe?.dragHandleProps}
-                onClick={() => TaskInfoDetails(el._id)}
+                onClick={() => TaskInfoDetails(info._id)}
             >
-                <div className="taskCard" id={el._id}>
+                <div className={`taskCard  ${info.status}`} id={info._id}>
                     <strong>{info.title? stringFormat(info.title, 20) : '...'}</strong>
                     <span>{info.accountable.length > 0? stringFormat(info.accountable, 20): '...'}</span>
                     <span>{FormatDate(date, true)}</span>

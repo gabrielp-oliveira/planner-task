@@ -1,29 +1,39 @@
-import React, { useEffect, useState, useRef, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import './navHeader.css'
 
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import AddUserModal from '../Modal/AddUserModal'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog, faPlus, faUserAlt } from '@fortawesome/free-solid-svg-icons'
+import { faCog,  faUserAlt } from '@fortawesome/free-solid-svg-icons'
 
 import logout from '../../utils/logout';
 
 import { Link } from 'react-router-dom';
+import DellUserModal from '../Modal/DellUserModal';
 
-function NavHeader({ acess, users }: any) {
+import { listenEvent } from '../../utils/socket'
+
+function NavHeader({  users , userId, plannerId, userEmail }: any) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [usersList, setUsersList] = useState<null | HTMLElement>(null);
     const [orderganizer, setOrderganizer] = useState<any>();
+    const [adUserModal, callAddUserModal] = useState<boolean>();
+    const [dellUserModal, callDellUserModal] = useState<boolean>();
+    const [totalUserList, setTotalUserList] = useState<any>();
+
 
     useEffect(() => {
-        if (acess === 'total') {
+        setTotalUserList(users)
             setOrderganizer([
-                <MenuItem > add new User </MenuItem>,
+                <MenuItem onClick={() => callAddUserModal(true)}> add new User </MenuItem>,
+                <MenuItem onClick={() => callDellUserModal(true)}> remove User </MenuItem>,
+                <MenuItem> <Link to={`/planner/id=${plannerId}/info`}> Info</Link></MenuItem>,
             ])
-        }
-    }, [acess])
+    }, [users])
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -40,11 +50,14 @@ function NavHeader({ acess, users }: any) {
         setAnchorEl(event.currentTarget);
     };
 
+    listenEvent('currentUsers', (usersList: any) => {
+        setTotalUserList(usersList)
+    })
 
     return (
         <div className="navHeader">
             
-            <p><Link  to={'../profile'}>Profile</Link></p>
+            <p><Link  to={'../../profile'}>Profile</Link></p>
             <div>
                 <span>
                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleUsersList}>
@@ -57,7 +70,7 @@ function NavHeader({ acess, users }: any) {
                         open={Boolean(usersList)}
                         onClose={handleCloseUsersList}
                     >
-                        {users?.map((us: any) => {
+                        {totalUserList?.map((us: any) => {
                             return <MenuItem >{us.name}</MenuItem>
                         })}
                     </Menu>
@@ -77,6 +90,8 @@ function NavHeader({ acess, users }: any) {
                         <MenuItem onClick={logout}>Logout</MenuItem>
                     </Menu>
                 </span>
+            <AddUserModal  status={adUserModal} setStatus={callAddUserModal} plannerId={plannerId} userId={userId}/> 
+            <DellUserModal  status={dellUserModal} setStatus={callDellUserModal} plannerId={plannerId} userList={totalUserList} userId={userId} userEml={userEmail}/> 
             </div>
         </div>
     )

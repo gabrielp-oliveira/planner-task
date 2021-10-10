@@ -6,15 +6,9 @@
 }
 .profile > div {
     display: flex;
-    height: 100%;
+    height: calc(100% - 80px);
 }
-.profile > div > div{
-    display: flex;
-    background: rgb(51, 58, 19);
-    height: 100%;
-    width: 17%;
-    min-width: 200px;
-}
+
 .lateral {
     width: 200px;
 }

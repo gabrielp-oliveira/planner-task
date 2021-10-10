@@ -37,3 +37,17 @@ code {
   /* border-radius: 12px; */
   box-shadow: inset 7px 10px 12px transparent;
  }
+
+
+.target {
+  -webkit-transition: border 0.1s linear, box-shadow 0.1s linear;
+     -moz-transition: border 0.1s linear, box-shadow 0.1s linear;
+          transition: border 0.1s linear, box-shadow 0.1s linear;
+}
+
+.target.active {
+  border-color: rgb(30, 255, 0);
+  -webkit-box-shadow: 0 0 5px rgb(30, 255, 0);
+     -moz-box-shadow: 0 0 5px rgb(30, 255, 0);
+          box-shadow: 0 0 5px rgb(30, 255, 0);
+}

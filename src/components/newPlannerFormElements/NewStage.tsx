@@ -1,33 +1,45 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
+import Default from './defaultColumns'
+
+import api from '../../api/api'
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd"
 
-import Default from './defaultColumns'
+import TextField from '@material-ui/core/TextField';
+
+import { faForward, faBackward, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from '@material-ui/core/Button';
+import ErrorModal from '../Modal/errorModal';
+import MenuItem from '@material-ui/core/MenuItem';
+import Tooltip from '@material-ui/core/Tooltip';
+
 import auth from '../../utils/auth'
-import logout from '../../utils/logout';
+import stringFormat from '../../utils/stringFormat';
 
 function NewStage({ formInfo, step, currentInfo, status }: any) {
 
-    const StageName = useRef<HTMLInputElement>(null);
-    const StageDesc = useRef<HTMLInputElement>(null);
-
+    const [StageName, setStageName] = useState<string>();
+    const [StageDesc, setStageDesc] = useState<string>();
+    const [errorInfo, setErrorInfo] = useState<string>()
+    const [callError, setCallError] = useState<boolean>()
     function done() {
-        auth.then((data) => {
-            if (!data.data.error) {
-                if (currentInfo.length > 0) {
-                    status(true)
-                    step(3)
-                } else {
-                    alert('ta vazio ai')
-                }
-            } else {
-                alert(data.data.error)
-                // logout()
-            }
-        }).catch((data) => {
-            console.log(data)
-            alert(data)
-            // logout()
-        })
+        // auth.then((data) => {
+        //     if (!data.data.error) {
+        //         if (currentInfo.length > 0) {
+        //             status(true)
+        //             step(3)
+        //         } else {
+        //             alert('ta vazio ai')
+        //         }
+        //     } else {
+        //         alert(data.data.error)
+        //         // logout()
+        //     }
+        // }).catch((data) => {
+        //     console.log(data)
+        //     alert(data)
+        //     // logout()
+        // })
 
     }
     function callPrecursorStage() {
@@ -37,19 +49,24 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
 
 
     function createNewStage() {
-        if (currentInfo?.find((el: any) => el.StageName === StageName.current?.value) === undefined) {
-            if (StageName.current?.value.trim() !== '') {
+        if (StageName?.trim() !== undefined || StageDesc?.trim() !== undefined) {
 
-                formInfo((oldArray: any) => [...oldArray, {
-                    StageName: StageName.current?.value,
-                    StageDesc: StageDesc.current?.value
-                }])
-                console.log(currentInfo)
+            if (currentInfo?.find((el: any) => el.StageName === StageName) === undefined) {
+                if (StageName?.trim() !== '') {
+                    formInfo((oldArray: any) => [...oldArray, {
+                        StageName: StageName,
+                        StageDesc: StageDesc
+                    }])
+                } else {
+                    alert('use a valid name')
+                }
             } else {
-                alert('use a valid name')
+                alert('name allready in use')
             }
         } else {
-            alert('name allready in use')
+            alert('error')
+            setCallError(true)
+            setErrorInfo('some field is empty')
         }
     }
     function defaultStage() {
@@ -85,48 +102,72 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
 
     return (
         <>
-            <span>colunas</span>
+            <div className="newPlannerStage">
+                <span>stages</span>
 
-            <div>
-                <label htmlFor="">nome</label>
-                <input type="text" ref={StageName} placeholder="stage Name" />
-            </div>
-            <div>
-                <label htmlFor="">descricao</label>
-                <input type="text" ref={StageDesc} placeholder="stage Description" />
-            </div>
-            <button onClick={createNewStage}> New Stage</button>
-            <button onClick={defaultStage}>pre-created stage</button>
-            <button onClick={callPrecursorStage}> back</button>
-            <button onClick={done}> Done</button>
+                <div>
+                    <TextField type="text" label="stage Name" fullWidth onChange={(e) => setStageName(e.target.value)} />
+                </div>
+                <div>
+                    <TextField type="text" id="outlined-multiline-static" multiline onChange={(e) => setStageDesc(e.target.value)} label="stage Description" fullWidth
+                        rows={3} />
+                </div>
+                <div>
+                    <div className="buttons">
+                        <Button onClick={callPrecursorStage} variant="contained" color="primary">
+                            <FontAwesomeIcon icon={faBackward} />
+                        </Button>
+                        <Button onClick={done} variant="contained" color="primary">
+                            <FontAwesomeIcon icon={faForward} />
+                        </Button>
+                    </div>
+                    <div className="buttons">
+                        <Button onClick={defaultStage}>pre-created stage</Button>
+                        <Button onClick={createNewStage}> New Stage</Button>
+                    </div>
 
-            <div className="columnList">
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="todo">
-                        {(provided) => (
-                            <div className="todo" {...provided.droppableProps} ref={provided.innerRef}>
-                                {currentInfo.map(({ StageName, StageDesc }: any, index: any) => {
-                                    return (
-                                        <Draggable key={StageName} draggableId={StageName} index={index}>
-                                            {(provided, snapshot) => (
-                                                <div className={snapshot.isDragging? "dragging " : ""}
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                >
-                                                    {StageName}
-                                                    {StageDesc}
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    )
-                                })}
-                            </div>
-                        )}
-                    </Droppable>
-                </DragDropContext>
-            
+                </div>
+
+                <span className="columnList">
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="todo" direction="horizontal">
+                            {(provided) => (
+                                <div id="todo" {...provided.droppableProps} ref={provided.innerRef}>
+                                    {currentInfo.map(({ StageName, StageDesc }: any, index: any) => {
+                                        return (
+                                            <Draggable key={StageName} draggableId={StageName} index={index}>
+                                                {(provided, snapshot) => (
+                                                    <div className={snapshot.isDragging ? "dragging card" : "card"}
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                    >
+                                                        <Tooltip
+                                                            title={StageDesc ? StageName + ' - ' + StageDesc : ''} placement="top-end">
+                                                            <div>
+                                                                <span>
+                                                                    {stringFormat(StageName, 11)}
+                                                                </span>
+                                                            </div>
+                                                        </Tooltip>
+                                                        <Button
+                                                            onClick={() => deletethis(StageName)}>
+                                                            <FontAwesomeIcon icon={faTrashAlt} />
+                                                        </Button>
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        )
+                                    })}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
+
+                </span>
             </div>
+            <ErrorModal status={callError} setStatus={setCallError} info={errorInfo} />
+
         </>
     )
 }

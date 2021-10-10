@@ -1,7 +1,16 @@
-header{
+/* header{
     width: 100%;
     background: gray;
     display: flex;
     justify-content: space-between;
     height: 80px;
-}
+} */
+/* 
+header {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+  }*/

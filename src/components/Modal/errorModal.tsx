@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
@@ -8,9 +8,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 600,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
+    width: 650,
     boxShadow: 24,
     p: 4,
 };
@@ -32,11 +30,11 @@ export default function ErrorModal({  status, setStatus, info }: any) {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
+                <Box sx={style} className="taskModal">
 
                     <h3>Error</h3>
                     <br />
-                    <p>{info.message}</p> 
+                    <p>{info}</p> 
                     <hr /><br />
 
                     <div>

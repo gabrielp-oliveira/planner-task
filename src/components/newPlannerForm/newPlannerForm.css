@@ -1,10 +1,10 @@
 .newPlanner {
     display: flex;
     flex-direction: column;
-    height: 500px;
+    max-height: 100%;
     width: min-content;
-    /* margin-top: 30px; */
     align-self: center;
+
 
 }
 .newPlanner > a {
@@ -13,9 +13,17 @@
 .newPlanner > div {
     width: 500px;
     align-self: center;
+    max-height: 100%;
 }
 .newPlannerStage {
-    padding: 15px 0px;
+    padding: 15px;
+    border: 1px solid rgb(0, 0, 0, 0.1);
+    border-radius: 5px;
+    box-shadow: 3px 3px 5px rgb(0, 0, 0, 0.3);
+    background-color: rgb(248, 248, 248);
+    max-height: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
 }
 .newPlannerStage > div {
     width: 100%;
@@ -23,6 +31,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.newPlannerStage > div > div.buttons {
+    display: flex;
+    justify-content: space-around;
+}
+.columnList {
+    display: flex;
+    justify-content: center;
+    height: 200px;
+    padding-top: 20px;
 }
 .newPlannerStage > div > div{
     display: flex;
@@ -54,6 +72,24 @@
     
 
 }
-.participants {
-    border: 1px solid black;
+#participants {
+    display: flex;
+    flex-direction: column;
+    
+}
+#participants > div{
+    width: 250px;
+    padding: 5px 0px;
+    padding: 15px;
+    border: 1px solid rgb(0, 0, 0, 0.1);
+    border-radius: 5px;
+    box-shadow: 3px 3px 5px rgb(0, 0, 0, 0.3);
+    background-color: rgb(248, 248, 248);
+    margin: 5px 0px;
+}
+#participants > div > div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

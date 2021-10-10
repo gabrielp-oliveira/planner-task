@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react'
+import './sideBar.css'
 import { Link } from 'react-router-dom'
 import { UserContext } from '../../context/userContext'
+import stringFormat from '../../utils/stringFormat';
+import Tooltip from '@material-ui/core/Tooltip';
+import FormatDate from '../../utils/formatDate';
 
 function SideBar() {
 
@@ -8,17 +12,19 @@ function SideBar() {
     const [showPlanners, setShowPlanners] = useState<any>([])
 
     useEffect(() => {
-        console.log("atualizado")
         setShowPlanners([])
         userInfoContext?.userInfo?.planners?.forEach((element: any) => {
 
             setShowPlanners((oldArray: any) => [...oldArray,
-            <li>
-                <Link
-                    to={`../planner/id=${element.plannerId}`} key={element.plannerId}>
-                    {element.name}
-                </Link>
-            </li>])
+            <div>
+                <Tooltip
+                title={element.name?.length > 12? element.name : ''} placement="top-end">
+                    <Link
+                        to={`../planner/id=${element.plannerId}`} key={element.plannerId}>
+                        {stringFormat(element.name, 15)}
+                    </Link>
+                </Tooltip>
+            </div>])
         })
 
     }, [userInfoContext, setUserInfoContext])
@@ -26,10 +32,12 @@ function SideBar() {
 
 
     return (
-        <div>
+        <div className="plannerList">
+            <div>
 
-            <ul>{showPlanners}</ul>
-
+                <br />
+            </div>
+            <div>{showPlanners}</div>
         </div>
     )
 }

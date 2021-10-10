@@ -23,19 +23,19 @@ import NewColumnModal from '../../components/Modal/NewColumnModal'
 import NewTaskModal from '../../components/Modal/NewTaskModal'
 
 import InfoModal from '../../components/Modal/InfoModal'
-import ErrorModal from '../../components/Modal/errrorModal'
+import ErrorModal from '../../components/Modal/errorModal'
 
 import columnModel from '../../models/columnModel'
 import NavHeader from '../../components/navHeader/NavHeader'
 import taskModel from '../../models/taskModel'
 import ts from 'typescript'
+import SideBar from '../../components/sidebar/SideBar'
 
 function Planner({ props }: any) {
     const { userInfoContext, setUserInfoContext } = useContext<any>(UserContext)
 
 
     const [plannerId, setPlannerId] = useState<string>('')
-    const [acess, setAcess] = useState<string>()
 
     const [confirmDelColum, setConfirmDelColum] = useState<boolean>(false);
     const [createNewColumn, setCreateNewColumn] = useState<boolean>(false);
@@ -46,7 +46,7 @@ function Planner({ props }: any) {
     const [columnId, setcolumnId] = useState<string>('');
     const [users, setUsers] = useState<any>();
     const [modalMessage, setModalMessage] = useState<any>();
-    const [errorInfo, setErrorInfo] = useState<any>({ message: '' });
+    const [errorInfo, setErrorInfo] = useState<string>();
 
 
 
@@ -64,61 +64,57 @@ function Planner({ props }: any) {
         initializerPlanner(id)
             .catch((error) => {
                 setcallError(true)
-                setErrorInfo({ message: error })
+                setErrorInfo(error)
                 // logout()
             })
-            
-            listenEvent('newTask', (dat: any) => {
-                if (userInfoContext?.userInfo._id !== undefined &&
-                    (dat.userId !== userInfoContext?.userInfo._id)) {
-                        setInfoModal(true)
-                        setModalMessage(dat)
-                    }
-                    initializerPlanner(id)
-                    .then((stages: any) => {
-                        const col: any = document.getElementsByClassName(dat.Columnid)
-                        const task: any = document.getElementById(dat.taskId)
-                        col[0].children[0].style.border = "2px solid red"
-                        task.style.border = "2px solid red"
-                        
-                        if (dat.userId === userInfoContext?.userInfo._id) {
-                            setTimeout(() => {
-                                const element: any = document.getElementsByClassName(dat?.Columnid)
-                                element[0].children[0].style.border = "none"
-                                const task: any = document.getElementById(dat?.taskId)
-                                // task.style.border = "none"
-                                
-                            }, 3000);
-                            
-                        }
 
-                    })
-                    .catch((error) => {
-                        setcallError(true)
-                        setErrorInfo({ message: error })
-                        // logout()
-                    })
-                    
+        listenEvent('newTask', (dat: any) => {
+            if (userInfoContext?.userInfo._id !== undefined &&
+                (dat.userId !== userInfoContext?.userInfo._id)) {
+                setInfoModal(true)
+                setModalMessage(dat)
+            }
+            initializerPlanner(id)
+                .then((stages: any) => {
+                    const task: any = document.getElementById(dat.taskId)
+                    task.className ='target active taskCard'
+                    return dat.taskId
                 })
-            }, [props.match.params.id])
-            
-            listenEvent('changeTask', (pln: columnModel[]) => {
-                setColumns(pln)
-            })
-            listenEvent('updateTaskInfo', (taskList: columnModel) => {
-                setColumns(taskList)
-            })
-            
-            
-            
-            
-            
-            function updateTaskPosition(col: any) {
-                api.put('/task/updateTaskPosition', {
-                    params: { columns: col, plannerId, userId: userInfoContext?.userInfo?._id }
+                .then((taskId) => {
+                    const task: any = document.getElementById(taskId)
+                    setTimeout(() => {
+                        task.className ='taskCard'
+                    }, 6000);
                 })
+                .catch((error) => {
+                    setcallError(true)
+                    setErrorInfo(error)
+                    // logout()
+                })
+
+        })
+    }, [props.match.params.id])
+
+    listenEvent('changeTask', (pln: columnModel[]) => {
+        setColumns(pln)
+    })
+    listenEvent('updateTaskInfo', (taskList: columnModel) => {
+        setColumns(taskList)
+    })
+    listenEvent('delTask', (taskId: string) => {
+        const element = document.getElementById(taskId)
+        element?.remove()
+    })
+    listenEvent('currentUsers', (usersList: any) => {
+        setUsers(usersList)
+    })
+
+    function updateTaskPosition(col: any) {
+        api.put('/task/updateTaskPosition', {
+            params: { columns: col, plannerId, userId: userInfoContext?.userInfo?._id }
+        })
     }
-    
+
 
     const onDragEnded = (result: any, columns: any, setColumns: any) => {
         if (!result.destination) return;
@@ -171,13 +167,12 @@ function Planner({ props }: any) {
 
     async function initializerPlanner(id: string) {
         return authPlanner(id)
-            .then((data) => {
+            .then((data: any) => {
                 if (data.data.error) {
                     setcallError(true)
-                    setErrorInfo({ message: data.data.error })
+                    setErrorInfo(data.data.error )
                     // logout()
                 } else {
-                    setAcess(data.data.acess)
                     setColumns(data.data.planner.stages)
                     setPlannerId(data.data.planner._id)
                     setUsers(data.data.planner.users)
@@ -186,25 +181,10 @@ function Planner({ props }: any) {
                     return data
                 }
             })
-            .then((data: any) => {
-                data.data.planner.stages.forEach((element: any) => {
-                    const col = Array.from(document.getElementsByClassName(element._id) as HTMLCollectionOf<HTMLElement>)
-                    // col[0].style.border = "none"
-                    element.tasks?.forEach((tsk: any) => {
-                        const task = document.getElementById(tsk._id)
-                        if (task !== null) {
-                            // task.style.border = "none"
-                        }
-                    });
-
-                });
-                return data
-            })
-            .then((data) => {
+            .then((data : any) => {
                 if (data.data.error) {
-
                     setcallError(true)
-                    setErrorInfo({ message: data.data.error })
+                    setErrorInfo( data.data.error )
                 }
             })
     }
@@ -213,69 +193,71 @@ function Planner({ props }: any) {
 
     return (
         <>
-            <NavHeader acess={acess} users={users}></NavHeader>
-            <div className="stage">
-                <DragDropContext
-                    onDragEnd={result => onDragEnded(result, columns, setColumns)}
-                >
-                    {Object.entries(columns)?.map(([columnId, column]: any, index: any) => {
-                        return (
-                            <div key={columnId}
-                                className={column._id + ' column'}
-                            >
-                                <Droppable droppableId={columnId} key={columnId} direction="vertical">
-                                    {(provided, snapshot) => {
-                                        return (
-                                            <div
-                                                {...provided.droppableProps}
-                                                ref={provided.innerRef}
-                                                className={snapshot.isDraggingOver ? "lightblue" : ""}
+            <NavHeader users={users} plannerId={plannerId} userId={userInfoContext?.userInfo._id} userEmail={userInfoContext?.userInfo.email}></NavHeader>
+            <div style={{ display: 'flex', height: 'calc(100%  - 80px)' , width: '100%'}}>
+                <SideBar />
 
-                                            >
-                                                <div className="columnHeader">
-                                                    <span><FontAwesomeIcon icon={faPlus}
-                                                        onClick={() => callCreateTaskModal(true, column._id)} /></span>
-                                                    <span>{column.StageName}</span>
+                <div className="stage">
+                    <DragDropContext
+                        onDragEnd={result => onDragEnded(result, columns, setColumns)}
+                    >
+                        {Object.entries(columns)?.map(([columnId, column]: any, index: any) => {
+                            return (
+                                <div key={columnId}
+                                    className={column._id + ' column'}
+                                >
+                                    <Droppable droppableId={columnId} key={columnId} direction="vertical">
+                                        {(provided, snapshot) => {
+                                            return (
+                                                <div
+                                                    {...provided.droppableProps}
+                                                    ref={provided.innerRef}
+                                                    className={snapshot.isDraggingOver ? "lightblue" : ""}
+                                                >
+                                                    <div className="columnHeader">
+                                                        <span><FontAwesomeIcon icon={faPlus}
+                                                            onClick={() => callCreateTaskModal(true, column._id)} /></span>
+                                                        <span>{column.StageName}</span>
+                                                    </div>
+                                                    <div className="columnBody">
+                                                        {column.tasks.map((item: any, index: any) => {
+                                                            return (
+                                                                <Draggable
+                                                                    key={item._id}
+                                                                    draggableId={item._id}
+                                                                    index={index}
+                                                                >
+                                                                    {(provided, snapshot) => {
+                                                                        return (
+                                                                            <Task info={item}
+                                                                                classN={snapshot.isDragging ? "dragging Task" : "Tasks"}
+                                                                                refe={provided}
+                                                                                users={users}
+                                                                            />
+                                                                        );
+                                                                    }}
+                                                                </Draggable>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                    {provided.placeholder}
                                                 </div>
-                                                <div className="columnBody">
-                                                    {column.tasks.map((item: any, index: any) => {
-                                                        return (
-                                                            <Draggable
-                                                                key={item._id}
-                                                                draggableId={item._id}
-                                                                index={index}
-                                                            >
-                                                                {(provided, snapshot) => {
-                                                                    return (
-                                                                        <Task info={item}
-                                                                            classN={snapshot.isDragging ? "dragging Task" : "Tasks"}
-                                                                            refe={provided}
-                                                                            el={item}
-                                                                            users={users}
-                                                                        />
-                                                                    );
-                                                                }}
-                                                            </Draggable>
-                                                        );
-                                                    })}
-                                                </div>
-                                                {provided.placeholder}
-                                            </div>
-                                        );
-                                    }}
-                                </Droppable>
-                            </div>
-                        );
-                    })}
-                </DragDropContext>
+                                            );
+                                        }}
+                                    </Droppable>
+                                </div>
+                            );
+                        })}
+                    </DragDropContext>
+                </div>
+                <DelColumnModal status={confirmDelColum} setStatus={setConfirmDelColum} name={columnName} Columnid={columnId} plannerId={plannerId} />
+                <NewColumnModal status={createNewColumn} setStatus={setCreateNewColumn} plannerId={plannerId} />
+                <NewTaskModal getUsers={users} status={createNewTask} setStatus={setCreateNewTask} Columnid={columnId} plannerId={plannerId} />
+                <InfoModal status={infoModal} setStatus={setInfoModal} info={modalMessage} />
+                <ErrorModal status={callError} setStatus={setcallError} info={errorInfo} />
             </div>
-            <DelColumnModal status={confirmDelColum} setStatus={setConfirmDelColum} name={columnName} Columnid={columnId} plannerId={plannerId} />
-            <NewColumnModal status={createNewColumn} setStatus={setCreateNewColumn} plannerId={plannerId} />
-            <NewTaskModal getUsers={users} status={createNewTask} setStatus={setCreateNewTask} Columnid={columnId} plannerId={plannerId} />
-            <InfoModal status={infoModal} setStatus={setInfoModal} info={modalMessage} />
-            <ErrorModal status={callError} setStatus={setcallError} info={errorInfo} />
-
         </>
+
     );
 }
 
