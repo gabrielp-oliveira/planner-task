@@ -8,13 +8,13 @@ import Profile from './pages/Profile/ProfilePage';
 import Forgot from './pages/auth/ForgotPassword/Forgot'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import ProtectedRouter from './utils/ProtectedRouter';
-import { createBrowserHistory } from 'history'
+// import { createBrowserHistory } from 'history'
 import HomePage from './pages/homePage/HomePage';
-import Confirmation from './pages/auth/confirmation/Confirmation';
+import verifyAccount from './pages/auth/verifyAccount/verifyAccount';
 
 import { UserContext } from './context/userContext'
 import auth from './utils/auth'
-import logout from './utils/logout';
+// import logout from './utils/logout';
 
 
 function App() {
@@ -54,6 +54,9 @@ function App() {
 
           <ProtectedRouter path="/forgotpassword"
             Comp={Forgot} isAuth={!acess} redirect="/" />
+            
+          <ProtectedRouter path="/verifyAccount"
+            Comp={verifyAccount} isAuth={!acess} redirect="/" />
 
 
           <Route path="/" exact component={HomePage} />

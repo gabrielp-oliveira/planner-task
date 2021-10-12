@@ -12,6 +12,7 @@ function Task({ info, classN, refe,  users}: any) {
     const [taskId, setTaskId] = useState<string>();
 
     useEffect(() => {
+        console.log(info)
         const teste = new Date(info.CreatedAt)
         const year = teste.getFullYear()
         const month = teste.getMonth()
@@ -27,6 +28,7 @@ function Task({ info, classN, refe,  users}: any) {
         setTaskId(taskId)
     }
 
+
     return (
         <>
             <div
@@ -37,8 +39,8 @@ function Task({ info, classN, refe,  users}: any) {
                 onClick={() => TaskInfoDetails(info._id)}
             >
                 <div className={`taskCard  ${info.status}`} id={info._id}>
-                    <strong>{info.title? stringFormat(info.title, 20) : '...'}</strong>
-                    <span>{info.accountable.length > 0? stringFormat(info.accountable, 20): '...'}</span>
+                    <strong>{info.title? stringFormat(info.title, 15) : '...'}</strong>
+                    <span>{info.description? stringFormat(info.description, 20): '...'}</span>
                     <span>{FormatDate(date, true)}</span>
                 </div>
             </div>

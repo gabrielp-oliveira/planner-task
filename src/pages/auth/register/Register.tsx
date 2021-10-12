@@ -29,7 +29,7 @@ function Register() {
 
     function register(e: any) {
         e.preventDefault()
-        setloading(true)
+        // setloading(true)
         const emailValue = email.current?.children[1].children[0]?.value.trim()
         const nameValue = name.current?.children[1].children[0]?.value.trim()
         const passwordValue1 = password.current?.children[1].children[0]?.value.trim()
@@ -62,21 +62,19 @@ function Register() {
         }
         if(passwordValue1.length < 8){
             setCallErrorModal(true)
-            setErrorInfo('must be greater than 8 characters.')
+            setErrorInfo('must be greater than 8 characters.') 
             setloading(false)
             return
         }
-        setUserInfo({
+
+        api.post('/auth/register', {
             email: emailValue,
             password: passwordValue1,
-            name: emailValue
+            name: nameValue
         })
-        api.post('/auth/register', userInfo)
             .then((data) => {
                 if (!data.data.error) {
-                    localStorage.setItem('token', data.data.token)
-                    localStorage.setItem('UserId', data.data.UserId)
-                    history.push('/profile')
+                    history.push('/verifyAccount')
                     document.location.reload();
                     setloading(false)
                 } else {

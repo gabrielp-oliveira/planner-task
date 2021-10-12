@@ -1,7 +1,6 @@
 .login {
     border: 1px solid rgb(0, 0, 0, 0.3);
     min-width: 300px;
-    width: 400px;
     height: 320px;
     align-self: center;
     display: flex;
@@ -44,9 +43,7 @@
     outline: 0;
     font-size: 17px;
 }
-.form {
-    width: 300px;
-}
+
 .form > div {
     display: flex;
     margin: 10px;
@@ -61,11 +58,19 @@
     margin: 10px;
 }
 .loginButton{
-    width: 100px;
+    width: 120px;
     align-self: center;
 }
 .recoveryPassword{
     display: flex;
+    flex-direction: column;
     justify-content: flex-end;
     color: blue;
+}
+
+.recoveryPassword > span:first-child {
+    align-self: flex-start;
+}
+.recoveryPassword > span:last-child {
+    align-self: flex-end;
 }

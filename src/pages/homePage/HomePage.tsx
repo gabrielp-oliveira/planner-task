@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import './HomePage.css'
 import { Link } from 'react-router-dom'
 
@@ -18,6 +18,21 @@ import { faLaptop } from '@fortawesome/free-solid-svg-icons'
 
 
 function HomePage() {
+    const [width, setWidth ] = useState<number>(400)
+
+    useEffect(() => {
+        if(window.screen.width < 400){
+            setWidth(window.screen.width-30)
+        }
+    }, [])
+
+    window.addEventListener('resize',(e: any) => {
+        if(window.screen.width < 400){
+            setWidth(window.screen.width-30)
+        }else{
+            setWidth(400)
+        }
+    })
     return (
         <div className="HomePage">
             <div className="HomePageHeader">
@@ -32,14 +47,14 @@ function HomePage() {
                 <div className="" style={{ maxHeight: '700px' }}>
                     <h3>Just a simple Planner</h3>
                     <div>
-                        <p>A simple and visual way to organize work that is updated in real time for the entire team.</p>
-                        <img src={task} alt="" width="400" className="iconAbout" />
+                        <p>inspired in the Microsoft Planner, this tool helps you  to create a  simple and visual way to organize work that is updated in real time for the entire team.</p>
+                        <img src={task} alt="" width={width} className="iconAbout" />
 
                     </div>
                     <br />
                     <div>
                         <p>create and organize your demands and tasks according to your <span className="textTarget"> team's </span> needs.</p>
-                        <img src={Planner} alt="" width="400" className="iconAbout" />
+                        <img src={Planner} alt="" width={width} className="iconAbout" />
                         <p>solutions and task changes will be <span className="textTarget">updated in real time</span>, so even working <span className="textTarget">remotely and concurrently</span> with other people, the planner will update to <span className="textTarget">everyone</span> at the same time.</p>
                     </div>
                 </div>
@@ -67,7 +82,7 @@ function HomePage() {
                             <p className="">This project is part of my <a href="https://gabrielp-oliveira.github.io/" target="_blank" rel="noreferrer"> <span className="textTarget">
                                 portfolio </span></a> , so feel free to get in touch for feedback on the code, structure or other reason that will help me become a better programmer!</p>
                             <br />
-                            <img src={portfolioExample} alt="" />
+                            {/* <img src={portfolioExample} alt="" /> */}
                             <div>
                                 <a href="https://github.com/gabrielp-oliveira" target="_blank">
                                     <FontAwesomeIcon icon={faGithub} />

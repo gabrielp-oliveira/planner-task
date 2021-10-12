@@ -5,15 +5,14 @@
     width: min-content;
     align-self: center;
 
-
 }
 .newPlanner > a {
     margin-bottom: 50px;
 }
 .newPlanner > div {
-    width: 500px;
     align-self: center;
     max-height: 100%;
+    width: 100%;
 }
 .newPlannerStage {
     padding: 15px;
@@ -93,3 +92,17 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+@media (max-width: 700px) {
+    .newPlanner {
+      width: 80%
+    }
+  
+  }
+  @media (min-width: 700px) {
+    .newPlanner {
+      width: 480px;
+  
+    }
+  
+  }

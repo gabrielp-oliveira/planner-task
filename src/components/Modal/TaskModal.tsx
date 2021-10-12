@@ -18,16 +18,6 @@ import './Modal.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt, faTimesCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 650,
-    boxShadow: 24,
-    padding: '0px'
-};
-
 
 export default function TaskModal({ status, setStatus, taskId, users }: any) {
 
@@ -49,7 +39,34 @@ export default function TaskModal({ status, setStatus, taskId, users }: any) {
     const [title, seTitle] = useState<string>('')
     const [accountables, setAccountables] = useState<[string?]>([])
     const [initialTaskStatus, setInitialTaskStatus] = useState<string>()
+    const [width, setWidth] = useState<number>(650)
 
+    useEffect(() => {
+        if(window.screen.width < 650){
+            setWidth(window.screen.width-10)
+        }
+    }, [])
+    
+
+    window.addEventListener('resize',(e: any) => {
+        if(window.screen.width < 650){
+            setWidth(window.screen.width-10)
+        }else{
+            setWidth(650)
+        }
+    })
+
+    const style = {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: width,
+        boxShadow: 24,
+        padding: '0px'
+    };
+
+    
     function closeModal() {
         setAccountables([])
         setInitialTaskStatus('')
@@ -170,7 +187,7 @@ export default function TaskModal({ status, setStatus, taskId, users }: any) {
 
                         <div className='taskModal'>
 
-                            <div className="taskModalHeader">
+                            <div className={`taskModalHeader ${taskInfo?.status}`}>
                                 <div>
                                     <p>
                                         <span className="pencil" onClick={() => setShowTitleInput(!showTitleInput)}><FontAwesomeIcon icon={faPencilAlt} /></span>

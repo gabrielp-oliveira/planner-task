@@ -10,17 +10,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import api from '../../api/api';
 
 import ErrorModal from './errorModal';
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 600,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
 
 
 export default function AddUserModal({ status, setStatus, plannerId, userId }: any) {
@@ -30,7 +19,34 @@ export default function AddUserModal({ status, setStatus, plannerId, userId }: a
     })
     const [callerrorModal, setcallerrorModal] = useState<boolean>()
     const [errorInfo, seterrorInfo] = useState<any>()
+    const [width, setWidth] = useState<number>(650)
 
+    useEffect(() => {
+        if(window.screen.width < 650){
+            setWidth(window.screen.width-10)
+        }
+    }, [])
+
+    window.addEventListener('resize',(e: any) => {
+        if(window.screen.width < 650){
+            setWidth(window.screen.width-10)
+        }else{
+            setWidth(650)
+        }
+    })
+
+    const style = {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: width,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+    
     function closeModal() {
         setStatus(false)
     }

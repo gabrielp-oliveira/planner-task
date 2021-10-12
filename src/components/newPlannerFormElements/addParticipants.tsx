@@ -24,7 +24,8 @@ function AddParticipants({ formInfo, stage, currentInfo }: any) {
         if (currentInfo?.length > 0) {
             stage(2)
         } else {
-            alert('ta vazio ai')
+            alert("you didn't added any participant, you can add later, in the planner page")
+            stage(2)
         }
     }
     function callPrecursorStage() {
@@ -65,7 +66,7 @@ function AddParticipants({ formInfo, stage, currentInfo }: any) {
                         setErrorInfo(error)
                         setCallError(true)
                     })
-            }else{
+            } else {
                 setErrorInfo('please fill in the acess field.')
                 setCallError(true)
             }
@@ -121,9 +122,12 @@ function AddParticipants({ formInfo, stage, currentInfo }: any) {
 
                     </div>
                 })}</div>
-                <Button onClick={callPrecursorStage}><FontAwesomeIcon icon={faBackward} /></Button>
+                <p>
 
-                <Button onClick={callNextStage}><FontAwesomeIcon icon={faForward} /></Button>
+                    <Button onClick={callPrecursorStage} variant="contained" color="secondary"><FontAwesomeIcon icon={faBackward} /></Button>
+
+                    <Button onClick={callNextStage} variant="contained" color="primary"><FontAwesomeIcon icon={faForward} /></Button>
+                </p>
 
 
             </div>

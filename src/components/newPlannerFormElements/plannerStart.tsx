@@ -62,10 +62,10 @@ function PlannerStart({ formInfo, stage, currentInfo }: any) {
                     </div>
                 </div>
                 <p>
-                    <Link to="/profile"><Button >
+                    <Link to="/profile"><Button variant="contained" color="secondary">
                     <FontAwesomeIcon icon={faBackward} />
                         </Button></Link>
-                    <Button onClick={callNextStage}><FontAwesomeIcon icon={faForward} /></Button>
+                    <Button onClick={callNextStage} variant="contained" color="primary"><FontAwesomeIcon icon={faForward} /></Button>
                 </p>
             </div>
             <ErrorModal status={callError} setStatus={setCallError} info={errorInfo}/>

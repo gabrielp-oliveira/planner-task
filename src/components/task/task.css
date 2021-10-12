@@ -8,6 +8,7 @@
     background-color: #456C86;
     color: white;
     transition-delay: 1s;
+    box-shadow: inset 0px 0px 15px rgb(0, 0, 0, 0.4);
 }
 .taskCard > span:last-child {
     font-size: 12px;

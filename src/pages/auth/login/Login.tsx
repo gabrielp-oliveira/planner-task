@@ -26,6 +26,9 @@ function Login() {
     const [errorInfo, setErrorInfo] =useState<string>()
     const [loading, setloading] = useState<boolean>(false)
 
+    useEffect(() => {
+        email.current?.children[1].children[0]?.select()
+    }, [])
 
     function login(e: any): void {
         e.preventDefault()
@@ -46,10 +49,13 @@ function Login() {
                         setErrorInfo(data.data.error)
                         setloading(false)
                     }
+                    return data
                 })
-                .then(() => {
-                    history.push('/profile')
-                    document.location.reload(); 
+                .then((el) => {
+                    if(!el.data.error){
+                        history.push('/profile')
+                        document.location.reload(); 
+                    }
                 })
                 .catch((error) => {
                     setCallErrorModal(true)
@@ -90,7 +96,7 @@ function Login() {
 
                             <Box sx={{ display: 'flex', alignItems: 'flex-end' }} className="input">
                                 <FontAwesomeIcon icon={faUnlock} />
-                                <TextField id="input-with-sx" label="Password" variant="standard" ref={password} fullWidth />
+                                <TextField id="input-with-sx" label="Password" variant="standard" ref={password} fullWidth type="password"/>
                             </Box>
 
                         </div>
@@ -100,7 +106,9 @@ function Login() {
                         </span>
                     </form>
                     <span className="recoveryPassword">
-                        <Link to="/forgotpassword">Forgot your password?</Link>
+                        <span><Link to="/verifyAccount">verify your Account </Link> </span> <br />
+                        <span><Link to="/forgotpassword">Forgot your password?</Link></span>
+                        
                     </span>
                 </div> 
             </div> : <CircularProgress style={{alignSelf: 'center', marginTop: '50px'}}/>}

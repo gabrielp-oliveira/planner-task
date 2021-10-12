@@ -51,3 +51,91 @@ code {
      -moz-box-shadow: 0 0 5px rgb(30, 255, 0);
           box-shadow: 0 0 5px rgb(30, 255, 0);
 }
+
+@media (max-width: 720px) {
+  .functionalities > div {
+    margin-left: 0px;
+}
+}
+@media (min-width: 720px) {
+  .functionalities > div {
+    margin-left: 50px;
+  }
+}
+@media (max-width: 400px) {
+  .login {
+    width: 100%;
+  }
+  .form {
+    width: 100%;
+  }
+}
+@media (min-width: 400px) {
+  .login {
+    width: 400px;
+  }
+  .form {
+    width: 300px;
+}
+}
+@media (max-width: 400px) {
+  .HomePageHeader {
+    padding: 0;
+  }
+  .HomePageHeader > div {
+    width: 110px;
+  }
+}
+@media (min-width: 400px) {
+  .HomePageHeader {
+    padding: 0 20px;
+  }
+  .HomePageHeader > div {
+    width: 150px;
+  }
+}
+@media (max-width: 510px) {
+  .newUserModalHeader {
+    flex-direction: column;
+  }
+  .newUserModalHeader > div {
+    width: 100%;
+  }
+
+}
+@media (min-width: 510px) {
+  .newUserModalHeader {
+    flex-direction: row;
+  }
+  .newUserModalHeader > div {
+    width: 48%;
+  }
+}
+@media (max-width: 700px) {
+  .plannerList {
+    display: none;
+  }
+  .plannerListBars {
+    display: flex;
+  }
+  main {
+    width: 100%;
+  }
+  .stage, .infoPage {
+    width: 100%
+  }
+}
+@media (min-width: 700px) {
+  .plannerList {
+    display: block;
+  }
+  .plannerListBars {
+    display: none;
+  }
+  main {
+    width: calc(100% - 200px);
+  }
+  .stage, .infoPage {
+    width: calc(100% - 200px);
+  }
+}

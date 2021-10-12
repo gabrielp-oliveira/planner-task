@@ -8,7 +8,7 @@
 .taskModalHeader {
     display: flex;
     justify-content: space-between;
-    background: rgb(61, 111, 204);
+    background: #456C86;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     height: 60px;
@@ -113,9 +113,7 @@
     display: flex;
     justify-content: space-between;
 }
-.newUserModalHeader> div {
-    width: 48%;
-}
+
 
 .none {
     background-color: #456C86!important;

@@ -5,6 +5,7 @@ import { UserContext } from '../../context/userContext'
 import stringFormat from '../../utils/stringFormat';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormatDate from '../../utils/formatDate';
+import SideBarResp from '../sideBarResp/sideBarResp';
 
 function SideBar() {
 
@@ -18,9 +19,9 @@ function SideBar() {
             setShowPlanners((oldArray: any) => [...oldArray,
             <div>
                 <Tooltip
-                title={element.name?.length > 12? element.name : ''} placement="top-end">
+                    title={element.name?.length > 12 ? element.name : ''} placement="top-end">
                     <Link
-                        to={`../planner/id=${element.plannerId}`} key={element.plannerId}>
+                        to={`../../planner/id=${element.plannerId}`} key={element.plannerId}>
                         {stringFormat(element.name, 15)}
                     </Link>
                 </Tooltip>
@@ -32,13 +33,16 @@ function SideBar() {
 
 
     return (
-        <div className="plannerList">
-            <div>
+        <>
+            <div className="plannerList">
+                <div>
 
-                <br />
+                    <br />
+                </div>
+                <div>{showPlanners}</div>
             </div>
-            <div>{showPlanners}</div>
-        </div>
+            <SideBarResp planners={showPlanners}/>
+        </>
     )
 }
 

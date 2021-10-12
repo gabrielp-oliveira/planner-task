@@ -23,23 +23,23 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
     const [errorInfo, setErrorInfo] = useState<string>()
     const [callError, setCallError] = useState<boolean>()
     function done() {
-        // auth.then((data) => {
-        //     if (!data.data.error) {
-        //         if (currentInfo.length > 0) {
-        //             status(true)
-        //             step(3)
-        //         } else {
-        //             alert('ta vazio ai')
-        //         }
-        //     } else {
-        //         alert(data.data.error)
-        //         // logout()
-        //     }
-        // }).catch((data) => {
-        //     console.log(data)
-        //     alert(data)
-        //     // logout()
-        // })
+        auth.then((data) => {
+            if (!data.data.error) {
+                if (currentInfo.length > 0) {
+                    status(true)
+                    step(3)
+                } else {
+                    alert('ta vazio ai')
+                }
+            } else {
+                alert(data.data.error)
+                // logout()
+            }
+        }).catch((data) => {
+            console.log(data)
+            alert(data)
+            // logout()
+        })
 
     }
     function callPrecursorStage() {
@@ -64,7 +64,6 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
                 alert('name allready in use')
             }
         } else {
-            alert('error')
             setCallError(true)
             setErrorInfo('some field is empty')
         }
@@ -114,7 +113,7 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
                 </div>
                 <div>
                     <div className="buttons">
-                        <Button onClick={callPrecursorStage} variant="contained" color="primary">
+                        <Button onClick={callPrecursorStage} variant="contained" color="secondary">
                             <FontAwesomeIcon icon={faBackward} />
                         </Button>
                         <Button onClick={done} variant="contained" color="primary">
@@ -122,8 +121,8 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
                         </Button>
                     </div>
                     <div className="buttons">
-                        <Button onClick={defaultStage}>pre-created stage</Button>
-                        <Button onClick={createNewStage}> New Stage</Button>
+                        <Button variant="contained" onClick={defaultStage} style={{background:"rgb(7, 84, 226)", color: 'white'}} >pre-created stage</Button>
+                        <Button variant="contained" onClick={createNewStage} style={{background:"rgb(179, 0, 140)", color: 'white'}}> New Stage</Button>
                     </div>
 
                 </div>
@@ -150,7 +149,7 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
                                                                 </span>
                                                             </div>
                                                         </Tooltip>
-                                                        <Button
+                                                        <Button 
                                                             onClick={() => deletethis(StageName)}>
                                                             <FontAwesomeIcon icon={faTrashAlt} />
                                                         </Button>

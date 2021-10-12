@@ -215,8 +215,7 @@ function Planner({ props }: any) {
                                                     className={snapshot.isDraggingOver ? "lightblue" : ""}
                                                 >
                                                     <div className="columnHeader">
-                                                        <span><FontAwesomeIcon icon={faPlus}
-                                                            onClick={() => callCreateTaskModal(true, column._id)} /></span>
+                                                        <span onClick={() => callCreateTaskModal(true, column._id)}><FontAwesomeIcon icon={faPlus}/> New Task</span>
                                                         <span>{column.StageName}</span>
                                                     </div>
                                                     <div className="columnBody">

@@ -17,6 +17,7 @@ function ProfileBody() {
 
     useEffect(() => {
         setUserInfo(userInfoContext?.userInfo)
+        console.log(userInfoContext?.userInfo)
     }, [userInfoContext?.userInfo])
 
 
