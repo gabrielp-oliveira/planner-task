@@ -29,15 +29,17 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
                     status(true)
                     step(3)
                 } else {
-                    alert('ta vazio ai')
+                    setErrorInfo('you have to create unless one stage for your planner')
+                    setCallError(true)
                 }
             } else {
-                alert(data.data.error)
+                setErrorInfo(data.data.error) 
+                setCallError(true)
                 // logout()
             }
         }).catch((data) => {
-            console.log(data)
-            alert(data)
+                setErrorInfo(data)
+                setCallError(true)
             // logout()
         })
 
@@ -58,10 +60,12 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
                         StageDesc: StageDesc
                     }])
                 } else {
-                    alert('use a valid name')
+                    setErrorInfo('use a valid name')
+                    setCallError(true)
                 }
             } else {
-                alert('name allready in use')
+                setErrorInfo('name allready in use')
+                setCallError(true)
             }
         } else {
             setCallError(true)
@@ -88,8 +92,6 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
         items.splice(destination.index, 0, newOrder)
 
         formInfo(items)
-        console.log(items)
-        console.log(currentInfo)
     }
 
     function deletethis(ev: any) {

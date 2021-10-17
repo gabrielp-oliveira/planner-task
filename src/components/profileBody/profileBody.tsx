@@ -5,9 +5,11 @@ import { BrowserRouter as Router, Switch, Link } from 'react-router-dom'
 import ProtectedRouter from '../../utils/ProtectedRouter';
 
 import NewPlannerForm from '../newPlannerForm/newPlannerForm';
+import { useHistory } from "react-router-dom";
 
 import { UserContext } from '../../context/userContext'
 import api from '../../api/api';
+import { Button } from '@material-ui/core';
 
 function ProfileBody() {
 
@@ -17,7 +19,6 @@ function ProfileBody() {
 
     useEffect(() => {
         setUserInfo(userInfoContext?.userInfo)
-        console.log(userInfoContext?.userInfo)
     }, [userInfoContext?.userInfo])
 
 
@@ -27,8 +28,6 @@ function ProfileBody() {
             <Router>
                 <Switch>
 
-                    <ProtectedRouter path="/profile/newPlanner"
-                        Comp={NewPlannerForm} isAuth={true} redirect="/" />
 
                     <ProtectedRouter path="/profile/"
                         Comp={Welcome} isAuth={true} redirect="/" />
@@ -43,7 +42,12 @@ export default ProfileBody
 
 
 const Welcome = ({name, email}: any) => {
-
+    const history = useHistory();
+    
+    function goTo(){
+        history.push('/profile/newPlanner')
+        document.location.reload(); 
+    }
     const { userInfoContext } = useContext<any>(UserContext)
 
     useEffect(() => {
@@ -55,8 +59,9 @@ const Welcome = ({name, email}: any) => {
     }, [])
     return (
         <div>
-            welcome, {userInfoContext?.userInfo.name}.<br />
-            <Link to="/profile/newPlanner"> New planner</Link>
+            <div style={{marginTop: '10px'}}>welcome, {userInfoContext?.userInfo.name}</div>
+            <br />
+            <Button onClick={goTo} className="link" style={{background:'rgb(14, 121, 28, 0.8)', color: 'white', marginTop: '25px'}}> Create New planner</Button>
 
         </div>
     )

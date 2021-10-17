@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -6,23 +6,42 @@ import Modal from '@material-ui/core/Modal';
 import api from '../../api/api'
 import ErrorModal from './errorModal'
 
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 600,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
+
 
 
 export default function DeleteTaskModal({ delTaskStatus, taskId, setDelTaskStatus }: any) {
 
     const [callError, setcallError] = useState<boolean>(false);
     const [errorInfo, setErrorInfo] = useState<any>('' );
+    const [width, setWidth] = useState<number>(650)
+
+    useEffect(() => {
+        if(window.screen.width < 650){
+            setWidth(window.screen.width-10)
+        }
+    }, [])
+    
+
+    window.addEventListener('resize',(e: any) => {
+        if(e.target.innerWidth < 650){
+            setWidth(e.target.innerWidth-20)
+        }else{
+            setWidth(650)
+        }
+    })
+
+    const style = {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: width,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+
     function closeModal() {
         setDelTaskStatus(false)
     }
@@ -34,11 +53,11 @@ export default function DeleteTaskModal({ delTaskStatus, taskId, setDelTaskStatu
             }
         })
         .then((dat) => {
-            console.log(dat)
             if(dat.data.error){
                 setcallError(true)
                 setErrorInfo(dat.data.error)
-            }if(dat.data.ok){
+            }else{
+                console.log(dat)
                 closeModal()
             }
         })

@@ -35,11 +35,11 @@ function Register() {
         const passwordValue1 = password.current?.children[1].children[0]?.value.trim()
         const passwordValue2 = password2.current?.children[1].children[0]?.value.trim()
 
-        if(
+        if (
             emailValue === '' &&
             nameValue === '' &&
             passwordValue1 === '' &&
-            passwordValue2 === ''){
+            passwordValue2 === '') {
             setCallErrorModal(true)
             setErrorInfo('please fill in the details below.')
             setloading(false)
@@ -54,15 +54,15 @@ function Register() {
             setErrorInfo('some input is empty, please fill all the data.')
             setloading(false)
             return
-        }if(passwordValue1 !==passwordValue2){
+        } if (passwordValue1 !== passwordValue2) {
             setCallErrorModal(true)
             setErrorInfo('passwords are not compatible.')
             setloading(false)
             return
         }
-        if(passwordValue1.length < 8){
+        if (passwordValue1.length < 8) {
             setCallErrorModal(true)
-            setErrorInfo('must be greater than 8 characters.') 
+            setErrorInfo('must be greater than 8 characters.')
             setloading(false)
             return
         }
@@ -100,19 +100,18 @@ function Register() {
                     <Link to="/register">register</Link>
                 </div>
             </div>
-            {!loading? <div className="login">
-                <form onSubmit={e => register(e)}>
-                    <div className="form">
-
-                        <div>
-                            <span>Register</span>
-                        </div>
+            {!loading ? <div className="login">
+                <div className="form">
+                    <div>
+                        <span>Register</span>
+                    </div>
 
 
+                    <form onSubmit={e => register(e)}>
                         <div className="label">
                             <Box sx={{ display: 'flex', alignItems: 'flex-end' }} className="input">
                                 <FontAwesomeIcon icon={faEnvelope} />
-                                <TextField id="input-with-sx" label="Email" variant="standard" ref={email} fullWidth type="email"/>
+                                <TextField id="input-with-sx" label="Email" variant="standard" ref={email} fullWidth type="email" />
                             </Box>
                         </div>
 
@@ -125,22 +124,22 @@ function Register() {
                         <div className="label">
                             <Box sx={{ display: 'flex', alignItems: 'flex-end' }} className="input">
                                 <FontAwesomeIcon icon={faUnlock} />
-                                <TextField id="input-with-sx" label="Password" variant="standard" ref={password} fullWidth type="password"/>
+                                <TextField id="input-with-sx" label="Password" variant="standard" ref={password} fullWidth type="password" />
                             </Box>
                         </div>
                         <div className="label">
                             <Box sx={{ display: 'flex', alignItems: 'flex-end' }} className="input">
                                 <FontAwesomeIcon icon={faUnlock} />
-                                <TextField id="input-with-sx" label="Repeat Password" variant="standard" ref={password2} fullWidth type="password"/>
+                                <TextField id="input-with-sx" label="Repeat Password" variant="standard" ref={password2} fullWidth type="password" />
                             </Box>
                         </div>
                         <br />
                         <Button className="loginButton" type="submit" variant="contained" color="primary">Register</Button>
-                    </div>
-                </form>
-            </div> : <CircularProgress style={{alignSelf: 'center', marginTop: '50px'}}/>}
+                    </form>
+                </div>
+            </div> : <CircularProgress style={{ alignSelf: 'center', marginTop: '50px' }} />}
             <ErrorModal status={callErrorModal} setStatus={setCallErrorModal} info={errorInfo} />
-            
+
 
         </>
     )

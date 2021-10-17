@@ -14,15 +14,6 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import logout from '../../utils/logout'
 import api from '../../api/api'
 
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 650,
-    boxShadow: 24,
-    p: 4,
-};
 
 
 export default function NewTask({ getUsers, status, setStatus, Columnid, plannerId }: any) {
@@ -30,6 +21,33 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
     const [callError, setcallError] = useState<boolean>(false);
     const [errorInfo, setErrorInfo] = useState<any>('');
     const [accountableList, setAccountableList] = useState<any>([]);
+    const [width, setWidth] = useState<number>(650)
+
+    useEffect(() => {
+        if(window.screen.width < 650){
+            setWidth(window.screen.width-20)
+        }
+    }, [])
+
+    window.addEventListener('resize',(e: any) => {
+        if(e.target.innerWidth < 650){
+            setWidth(e.target.innerWidth-20)
+        }else{
+            setWidth(650)
+        }
+    })
+
+    const style = {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: width,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
 
     interface Task {
         title?: string,
@@ -64,11 +82,11 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
             if (data.data.error) {
                 setcallError(true)
                 setErrorInfo(data.data.error)
-            } else {
+            }else{
                 setTask({})
-                closeModal()
                 setUsers([{}])
                 setAccountableList([])
+                closeModal()   
             }
         })
         .catch((error: any) => {
@@ -113,15 +131,15 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
                     <h3 >New Task</h3>
                     <br />
                     <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div className="inputs">
 
-                            <TextField id="tasktitle" label="title" variant="outlined" style={{ width: '48%' }}
+                            <TextField id="tasktitle" label="title" variant="outlined" 
                                 onChange={(e) => setTask({
                                     description: task?.description,
                                     accountable: task?.accountable,
                                     title: e.target.value
                                 })} />
-                            <TextField id="taskDesk" label="Description" variant="outlined" style={{ width: '48%' }}
+                            <TextField id="taskDesk" label="Description" variant="outlined"
                                 onChange={(e) => setTask({
                                     title: task?.title,
                                     accountable: task?.accountable,

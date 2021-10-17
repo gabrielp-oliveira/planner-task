@@ -21,8 +21,8 @@ export default function InfoModal({  status, setStatus, info }: any) {
     }, [])
 
     window.addEventListener('resize',(e: any) => {
-        if(window.screen.width < 650){
-            setWidth(window.screen.width-10)
+        if(e.target.innerWidth < 650){
+            setWidth(e.target.innerWidth-20)
         }else{
             setWidth(650)
         }

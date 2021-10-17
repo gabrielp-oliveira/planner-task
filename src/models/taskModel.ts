@@ -7,6 +7,7 @@ export default interface taskModel {
         description?: string;
         title?: string;
         tsk?: any,
-        taskStatus?:string
+        taskStatus?:string,
+        deleted?: boolean
         
   }

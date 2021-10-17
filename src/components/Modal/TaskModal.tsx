@@ -49,8 +49,8 @@ export default function TaskModal({ status, setStatus, taskId, users }: any) {
     
 
     window.addEventListener('resize',(e: any) => {
-        if(window.screen.width < 650){
-            setWidth(window.screen.width-10)
+        if(e.target.innerWidth < 650){
+            setWidth(e.target.innerWidth-20)
         }else{
             setWidth(650)
         }
@@ -111,14 +111,15 @@ export default function TaskModal({ status, setStatus, taskId, users }: any) {
     }
 
     function updateTask() {
-        console.log(taskInfo)
+        
         api.put('/task/update', {
             params: {
                 updatedTask: taskInfo
             }
         })
-            .then((dat: any) => {
-                console.log(dat.data)
+        .then((dat: any) => {
+                console.log('dat')
+                console.log(dat)
                 if (!dat.data.error) {
                     setShowTitleInput(false)
                     setShowDescInput(false)

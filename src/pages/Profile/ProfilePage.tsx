@@ -22,17 +22,14 @@ function ProfilePage() {
 
 
                 if (!data.data.error) {
-                    console.log(data.data)
                     setUserInfoContext(data.data)
                 } else {
                     logout()
-                    console.log(data.data)
                 }
             }, 100);
         })
 
             .catch((error) => {
-                console.log(error)
                 logout()
             })
     }, [])

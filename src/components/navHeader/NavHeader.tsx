@@ -7,6 +7,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import AddUserModal from '../Modal/AddUserModal'
 
+import api from '../../api/api'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog,  faUserAlt } from '@fortawesome/free-solid-svg-icons'
 
@@ -17,7 +19,7 @@ import DellUserModal from '../Modal/DellUserModal';
 
 import { listenEvent } from '../../utils/socket'
 
-function NavHeader({  users , userId, plannerId, userEmail }: any) {
+function NavHeader({  users , userId, plannerId, userEmail, planner, getUserTasks, participantEmail }: any) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [usersList, setUsersList] = useState<null | HTMLElement>(null);
     const [orderganizer, setOrderganizer] = useState<any>();
@@ -54,6 +56,14 @@ function NavHeader({  users , userId, plannerId, userEmail }: any) {
         setTotalUserList(usersList)
     })
 
+    function setUserTasks(user: any){
+        if(planner){
+            getUserTasks(true)
+            participantEmail(user?.email)
+
+        }
+    }
+
     return (
         <div className="navHeader">
             
@@ -71,7 +81,7 @@ function NavHeader({  users , userId, plannerId, userEmail }: any) {
                         onClose={handleCloseUsersList}
                     >
                         {totalUserList?.map((us: any) => {
-                            return <MenuItem >{us.name}</MenuItem>
+                            return <MenuItem onClick={() => setUserTasks(us)}>{us.name}</MenuItem>
                         })}
                     </Menu>
                 </span>

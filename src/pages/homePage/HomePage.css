@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
+    height: 100%;
 }
 .HomePage a {
     color: rgb(155, 73, 231);
@@ -23,6 +24,9 @@
 .HomePageHeader > div {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    height: 80px;
+
 }
 .HomePageHeader a {
     color: white;
@@ -59,8 +63,6 @@
 .bodyHome {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: calc(100% - 160px);
 }
 
 .bodyHomeBody {
@@ -96,7 +98,7 @@ a .textTarget:hover {
     align-items: center;
     padding-bottom: 20px;
     margin-top: -1px;
-
+    padding: 10px;
 }
 
 .about > div {

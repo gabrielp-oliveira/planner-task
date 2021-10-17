@@ -12,7 +12,6 @@ function Task({ info, classN, refe,  users}: any) {
     const [taskId, setTaskId] = useState<string>();
 
     useEffect(() => {
-        console.log(info)
         const teste = new Date(info.CreatedAt)
         const year = teste.getFullYear()
         const month = teste.getMonth()

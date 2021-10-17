@@ -14,11 +14,10 @@ import { faCog, faPlus, faUserAlt } from '@fortawesome/free-solid-svg-icons'
 import authPlanner from '../../utils/authPlanner'
 import logout from '../../utils/logout';
 import api from '../../api/api'
-import { emitEvent, listenEvent } from '../../utils/socket'
+import { emitEvent, listenEvent, RemoveEvent } from '../../utils/socket'
 
 
 
-import DelColumnModal from '../../components/Modal/DelColumnModal'
 import NewColumnModal from '../../components/Modal/NewColumnModal'
 import NewTaskModal from '../../components/Modal/NewTaskModal'
 
@@ -42,7 +41,9 @@ function Planner({ props }: any) {
     const [infoModal, setInfoModal] = useState<boolean>();
     const [createNewTask, setCreateNewTask] = useState<boolean>(false);
     const [callError, setcallError] = useState<boolean>(false);
+    const [userTasks, getUserTasks] = useState<boolean>(false);
     const [columnName, setcolumnName] = useState<string>('');
+    const [userEmail, getUserEmail] = useState<string>('');
     const [columnId, setcolumnId] = useState<string>('');
     const [users, setUsers] = useState<any>();
     const [modalMessage, setModalMessage] = useState<any>();
@@ -68,46 +69,48 @@ function Planner({ props }: any) {
                 // logout()
             })
 
+    }, [props.match.params.id])
+
+    useEffect(() => {
+        RemoveEvent('changeTask')
+        RemoveEvent('updateTaskInfo')
+        RemoveEvent('newTask')
+        RemoveEvent('currentUsers')
+        RemoveEvent('delTask')
+        RemoveEvent('restoreTask')
+        listenEvent('delTask', (data: any) => {
+            const { task } = data
+            setColumns(task)
+        })
+
+        listenEvent('changeTask', (pln: columnModel[]) => {
+            setColumns(pln)
+        })
+        listenEvent('updateTaskInfo', (data: any, graphValues: any) => {
+            console.log(data.columns)
+            setColumns(data.columns)
+        })
         listenEvent('newTask', (dat: any) => {
             if (userInfoContext?.userInfo._id !== undefined &&
                 (dat.userId !== userInfoContext?.userInfo._id)) {
                 setInfoModal(true)
                 setModalMessage(dat)
             }
-            initializerPlanner(id)
-                .then((stages: any) => {
-                    const task: any = document.getElementById(dat.taskId)
-                    task.className ='target active taskCard'
-                    return dat.taskId
-                })
-                .then((taskId) => {
-                    const task: any = document.getElementById(taskId)
-                    setTimeout(() => {
-                        task.className ='taskCard'
-                    }, 6000);
-                })
-                .catch((error) => {
-                    setcallError(true)
-                    setErrorInfo(error)
-                    // logout()
-                })
-
+            setColumns(dat.columns)
         })
-    }, [props.match.params.id])
 
-    listenEvent('changeTask', (pln: columnModel[]) => {
-        setColumns(pln)
-    })
-    listenEvent('updateTaskInfo', (taskList: columnModel) => {
-        setColumns(taskList)
-    })
-    listenEvent('delTask', (taskId: string) => {
-        const element = document.getElementById(taskId)
-        element?.remove()
-    })
-    listenEvent('currentUsers', (usersList: any) => {
-        setUsers(usersList)
-    })
+        listenEvent('currentUsers', (usersList: any) => {
+            setUsers(usersList)
+        })
+
+        listenEvent('restoreTask', (data: any) => {
+            const { tasksRestored } = data
+            if(tasksRestored){                
+                setColumns(tasksRestored)
+            }
+        })
+    }, [userInfoContext?.userInfo._id])
+
 
     function updateTaskPosition(col: any) {
         api.put('/task/updateTaskPosition', {
@@ -125,10 +128,6 @@ function Planner({ props }: any) {
             const sourceItems = [...sourceColumn.tasks];
             const destItems = [...destColumn.tasks];
 
-            // alterando o id da coludas das tarefas para o id da nova coluna
-            destItems.forEach((el: any) => {
-                // el.stageId = destColumn._id
-            })
             const [removed] = sourceItems.splice(source.index, 1);
             destItems.splice(destination.index, 0, removed);
             updateTaskPosition({
@@ -143,7 +142,6 @@ function Planner({ props }: any) {
                 }
             });
         } else {
-            //alterações na mesma coluna
             const column = columns[source.droppableId];
             const copiedItems = [...column.tasks];
             const [removed] = copiedItems.splice(source.index, 1);
@@ -168,33 +166,50 @@ function Planner({ props }: any) {
     async function initializerPlanner(id: string) {
         return authPlanner(id)
             .then((data: any) => {
+                console.log(data.data.planner)
                 if (data.data.error) {
                     setcallError(true)
-                    setErrorInfo(data.data.error )
+                    setErrorInfo(data.data.error)
                     // logout()
                 } else {
-                    setColumns(data.data.planner.stages)
+                    setColumns(data.data.planner?.stages)
                     setPlannerId(data.data.planner._id)
                     setUsers(data.data.planner.users)
                     emitEvent('exitRoom', { plannerId: data.data.planner._id })
-                    emitEvent('joinRoom', { plannerId: data.data.planner._id })
+                    emitEvent('joinRoom', { plannerId: data.data.planner._id, userId: userInfoContext?.userInfo?._id })
                     return data
                 }
             })
-            .then((data : any) => {
+            .then((data: any) => {
                 if (data.data.error) {
                     setcallError(true)
-                    setErrorInfo( data.data.error )
+                    setErrorInfo(data.data.error)
                 }
             })
     }
 
 
+    useEffect(() => {
+        if (userTasks) {
+            api.get('task/usersTasks', {
+                params: {
+                    plannerId: plannerId,
+                    userEmail: userEmail
+                }
+            })
+                .then((data: any) => {
+                    setColumns(data.data.planner.stages)
+                })
+
+        }
+    }, [userEmail])
 
     return (
         <>
-            <NavHeader users={users} plannerId={plannerId} userId={userInfoContext?.userInfo._id} userEmail={userInfoContext?.userInfo.email}></NavHeader>
-            <div style={{ display: 'flex', height: 'calc(100%  - 80px)' , width: '100%'}}>
+            <NavHeader users={users} plannerId={plannerId} userId={userInfoContext?.userInfo._id}
+                userEmail={userInfoContext?.userInfo.email} planner={true} getUserTasks={getUserTasks} participantEmail={getUserEmail}
+            ></NavHeader>
+            <div style={{ display: 'flex', height: 'calc(100%  - 80px)', width: '100%' }}>
                 <SideBar />
 
                 <div className="stage">
@@ -215,7 +230,7 @@ function Planner({ props }: any) {
                                                     className={snapshot.isDraggingOver ? "lightblue" : ""}
                                                 >
                                                     <div className="columnHeader">
-                                                        <span onClick={() => callCreateTaskModal(true, column._id)}><FontAwesomeIcon icon={faPlus}/> New Task</span>
+                                                        <span onClick={() => callCreateTaskModal(true, column._id)}><FontAwesomeIcon icon={faPlus} /> New Task</span>
                                                         <span>{column.StageName}</span>
                                                     </div>
                                                     <div className="columnBody">
@@ -249,7 +264,6 @@ function Planner({ props }: any) {
                         })}
                     </DragDropContext>
                 </div>
-                <DelColumnModal status={confirmDelColum} setStatus={setConfirmDelColum} name={columnName} Columnid={columnId} plannerId={plannerId} />
                 <NewColumnModal status={createNewColumn} setStatus={setCreateNewColumn} plannerId={plannerId} />
                 <NewTaskModal getUsers={users} status={createNewTask} setStatus={setCreateNewTask} Columnid={columnId} plannerId={plannerId} />
                 <InfoModal status={infoModal} setStatus={setInfoModal} info={modalMessage} />

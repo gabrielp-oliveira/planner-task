@@ -39,7 +39,6 @@ function Confirmation() {
                 token: tokenValue
             })
                 .then((data) => {
-                    console.log(data)
                     if(!data.data.error){
                         alert('everything ok, make login again')
                         history.push('/login')

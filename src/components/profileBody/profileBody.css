@@ -3,3 +3,11 @@ main {
     display: flex;
     flex-direction: column;
 }
+
+.link {
+    color: blue;
+    cursor: pointer;
+}
+.link:hover {
+    text-decoration: underline;
+}

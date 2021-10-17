@@ -33,7 +33,7 @@ code {
   background: rgb(85, 85, 85);
  }
  ::-webkit-scrollbar-track{
-  background: white;
+  background: transparent;
   /* border-radius: 12px; */
   box-shadow: inset 7px 10px 12px transparent;
  }
@@ -80,7 +80,7 @@ code {
 }
 @media (max-width: 400px) {
   .HomePageHeader {
-    padding: 0;
+    padding: 0 10px;
   }
   .HomePageHeader > div {
     width: 110px;
@@ -124,6 +124,19 @@ code {
   .stage, .infoPage {
     width: 100%
   }
+  .graph {
+    width: 350px;
+  }
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .inputs >div {
+    width: 100%;
+    margin: 5px 0px;
+  }
+  .infoPage > div {}
 }
 @media (min-width: 700px) {
   .plannerList {
@@ -138,4 +151,28 @@ code {
   .stage, .infoPage {
     width: calc(100% - 200px);
   }
+  .graph {
+    width: 500px;
+  }
+  .inputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .inputs >div {
+    width: 48%;
+    margin: 0px;
+  }
 }
+
+/* @media (max-width: 1000px) {
+  .infoPage > div {
+    border: 1px solid red;
+  }
+}
+@media (min-width: 1000px) {
+  .infoPage > div {
+    border: 1px solid blue;
+  }
+}
+ */

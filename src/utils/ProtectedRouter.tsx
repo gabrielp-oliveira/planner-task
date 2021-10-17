@@ -12,7 +12,6 @@ function ProtectedRouter({ isAuth, redirect, Comp, path }: prop) {
 
     const [acess, setAcrss] = useState<any>()
     useEffect(() => {
-        console.log(isAuth)
         if (isAuth !== undefined) {
             if (isAuth) {
                 setAcrss(isAuth)

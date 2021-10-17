@@ -11,6 +11,7 @@ import ProtectedRouter from './utils/ProtectedRouter';
 // import { createBrowserHistory } from 'history'
 import HomePage from './pages/homePage/HomePage';
 import verifyAccount from './pages/auth/verifyAccount/verifyAccount';
+import NewPlannerForm from './components/newPlannerForm/newPlannerForm'
 
 import { UserContext } from './context/userContext'
 import auth from './utils/auth'
@@ -24,21 +25,21 @@ function App() {
 
   useEffect(() => {
 
-        const userValid = {userValid: false}
-        auth
-        .then((data) => {
-          
-          if (!data.data.error) {
-            setUserInfoContext(data.data)
-            setAcess(true)
-          } else {
-            setAcess(false)
-          }
-        }).catch((data) => {
+    const userValid = { userValid: false }
+    auth
+      .then((data) => {
+
+        if (!data.data.error) {
+          setUserInfoContext(data.data)
+          setAcess(true)
+        } else {
           setAcess(false)
-          setUserInfoContext(userValid)
-        })
-    
+        }
+      }).catch((data) => {
+        setAcess(false)
+        setUserInfoContext(userValid)
+      })
+
   }, [setUserInfoContext])
 
   return (
@@ -54,10 +55,12 @@ function App() {
 
           <ProtectedRouter path="/forgotpassword"
             Comp={Forgot} isAuth={!acess} redirect="/" />
-            
+
           <ProtectedRouter path="/verifyAccount"
             Comp={verifyAccount} isAuth={!acess} redirect="/" />
 
+          <ProtectedRouter path="/profile/newPlanner"
+            Comp={NewPlannerForm} isAuth={true} redirect="/" />
 
           <Route path="/" exact component={HomePage} />
           <Route path="/profile" exact component={Profile} />

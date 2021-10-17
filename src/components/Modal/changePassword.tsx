@@ -10,16 +10,6 @@ import { useHistory } from "react-router-dom";
 import ErrorModal from './errorModal';
 
 
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 650,
-    boxShadow: 24,
-    p: 4,
-};
-
 
 export default function ChangePassword({ status, setStatus, email }: any) {
 
@@ -33,7 +23,31 @@ export default function ChangePassword({ status, setStatus, email }: any) {
     const [loading, setloading] = useState<boolean>(false)
     const [callErrorModal, setCallErrorModal] = useState<boolean>()
     const [errorInfo, setErrorInfo] = useState<string>()
+    const [width, setWidth] = useState<number>(650)
 
+    useEffect(() => {
+        if(window.screen.width < 650){
+            setWidth(window.screen.width-10)
+        }
+    }, [])
+    
+
+    window.addEventListener('resize',(e: any) => {
+        if(e.target.innerWidth < 650){
+            setWidth(e.target.innerWidth-20)
+        }else{
+            setWidth(650)
+        }
+    })
+    const style = {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: width,
+        boxShadow: 24,
+        p: 4,
+    };
 
 
     function closeModal() {
@@ -62,7 +76,6 @@ export default function ChangePassword({ status, setStatus, email }: any) {
             }
         })
             .then((data) => {
-                console.log(data.data)
                 if (!data.data.error) {
                     alert('everything ok, make login again')
                 } else {

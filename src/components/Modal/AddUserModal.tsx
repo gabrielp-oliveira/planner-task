@@ -28,8 +28,8 @@ export default function AddUserModal({ status, setStatus, plannerId, userId }: a
     }, [])
 
     window.addEventListener('resize',(e: any) => {
-        if(window.screen.width < 650){
-            setWidth(window.screen.width-10)
+        if(e.target.innerWidth < 650){
+            setWidth(e.target.innerWidth-20)
         }else{
             setWidth(650)
         }
@@ -64,7 +64,6 @@ export default function AddUserModal({ status, setStatus, plannerId, userId }: a
                     setcallerrorModal(true)
                     seterrorInfo(data.data.error)
                 }
-                console.log(data)
             })
             .catch((error) => {
                 setcallerrorModal(true)

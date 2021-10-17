@@ -20,12 +20,11 @@ function AddParticipants({ formInfo, stage, currentInfo }: any) {
     const [callError, setCallError] = useState<boolean>()
 
     function callNextStage() {
-        console.log(currentInfo)
         if (currentInfo?.length > 0) {
             stage(2)
         } else {
-            alert("you didn't added any participant, you can add later, in the planner page")
-            stage(2)
+            alert("you didn't added any participant, you can add later, in the planner page.")
+            stage(2)          
         }
     }
     function callPrecursorStage() {

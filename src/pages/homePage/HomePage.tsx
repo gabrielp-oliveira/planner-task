@@ -7,7 +7,6 @@ import task from '../../assets/svg/task.svg'
 import taskSteps from '../../assets/svg/taskSteps.svg'
 import Curve from '../../assets/shapes/curve'
 import Waves from '../../assets/shapes/Waves'
-import portfolioExample from '../../assets/img/portfolioExample.png'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
@@ -43,8 +42,7 @@ function HomePage() {
                     <Link to="/register">register</Link>
                 </div>
             </div>
-            <div className="bodyHome">
-                <div className="" style={{ maxHeight: '700px' }}>
+                <div className="" style={{ maxHeight: '700px', padding: '10px'}}>
                     <h3>Just a simple Planner</h3>
                     <div>
                         <p>inspired in the Microsoft Planner, this tool helps you  to create a  simple and visual way to organize work that is updated in real time for the entire team.</p>
@@ -58,11 +56,7 @@ function HomePage() {
                         <p>solutions and task changes will be <span className="textTarget">updated in real time</span>, so even working <span className="textTarget">remotely and concurrently</span> with other people, the planner will update to <span className="textTarget">everyone</span> at the same time.</p>
                     </div>
                 </div>
-                <div className="bodyHomeBody">
-
-
-                </div>
-
+            <div className="bodyHome">
                 <div style={{ position: "relative" }}>
                     <div style={{ position: "relative" }}><Waves /></div>
                     <div style={{
@@ -80,17 +74,16 @@ function HomePage() {
                             <h2 className="">About</h2>
                             <span className="">"Use my knowledge to improve and test my skills as a <span className="textTarget">programmer</span> ".🚀</span>
                             <p className="">This project is part of my <a href="https://gabrielp-oliveira.github.io/" target="_blank" rel="noreferrer"> <span className="textTarget">
-                                portfolio </span></a> , so feel free to get in touch for feedback on the code, structure or other reason that will help me become a better programmer!</p>
+                                portfolio</span></a>, so feel free to get in touch for feedback on the code, structure or other reason that will help me become a better programmer!</p>
                             <br />
-                            {/* <img src={portfolioExample} alt="" /> */}
                             <div>
-                                <a href="https://github.com/gabrielp-oliveira" target="_blank">
+                                <a href="https://github.com/gabrielp-oliveira" target="_blank" rel="noreferrer">
                                     <FontAwesomeIcon icon={faGithub} />
                                 </a>
-                                <a href="https://www.linkedin.com/in/gabriel-97-oliveira" target="_blank" >
+                                <a href="https://www.linkedin.com/in/gabriel-97-oliveira" target="_blank" rel="noreferrer">
                                     <FontAwesomeIcon icon={faLinkedin} />
                                 </a>
-                                <a href="https://gabrielp-oliveira.github.io/" target="_blank">
+                                <a href="https://gabrielp-oliveira.github.io/" target="_blank"rel="noreferrer">
                                     <FontAwesomeIcon icon={faLaptop} />
                                 </a>
                             </div>
@@ -120,11 +113,11 @@ function HomePage() {
                         </div>
                     </div>
                 </div>
-            </div>
                 <div className="footer">
-                    <span >Designed & Developed by <a href="https://github.com/gabrielp-oliveira" target="_blank">Gabriel P. Oliveira</a></span>
+                    <span >Designed & Developed by <a href="https://github.com/gabrielp-oliveira" target="_blank" rel="noreferrer">Gabriel P. Oliveira</a></span>
 
                 </div>
+            </div>
         </div>
     )
 }

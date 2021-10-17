@@ -27,12 +27,38 @@ interface column {
 export default function NewColumnModal({ status, setStatus ,plannerId }: any) {
 
     const [column, setColumn] = useState<column>()
+    const [width, setWidth] = useState<number>(650)
 
+    useEffect(() => {
+        if(window.screen.width < 650){
+            setWidth(window.screen.width-10)
+        }
+    }, [])
+    
+
+    window.addEventListener('resize',(e: any) => {
+        if(e.target.innerWidth < 650){
+            setWidth(e.target.innerWidth-20)
+        }else{
+            setWidth(650)
+        }
+    })
+
+    const style = {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: width,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
     function closeModal() {
         setStatus(false)
     }
     function newColumn() {
-        console.log(column)
 
         api.post('/planner/newColumn', {
             params:{
@@ -42,7 +68,6 @@ export default function NewColumnModal({ status, setStatus ,plannerId }: any) {
             }
         })
         .then((data) => {
-            console.log(data)
         })
     }
     useEffect(() => {
