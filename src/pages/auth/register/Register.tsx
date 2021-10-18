@@ -60,9 +60,9 @@ function Register() {
             setloading(false)
             return
         }
-        if (passwordValue1.length < 8) {
+        if (passwordValue1.length < 3 || passwordValue1.length > 8) {
             setCallErrorModal(true)
-            setErrorInfo('must be greater than 8 characters.')
+            setErrorInfo('must be greater than 3 characters and lower than 8.')
             setloading(false)
             return
         }

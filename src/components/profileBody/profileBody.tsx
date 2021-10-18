@@ -18,8 +18,8 @@ function ProfileBody() {
 
 
     useEffect(() => {
-        setUserInfo(userInfoContext?.userInfo)
-    }, [userInfoContext?.userInfo])
+        setUserInfo(userInfoContext)
+    }, [userInfoContext])
 
 
 
@@ -53,13 +53,13 @@ const Welcome = ({name, email}: any) => {
     useEffect(() => {
         api.get('/task/userTasks', {
             params: {
-                userEmail: userInfoContext?.userInfo?.email
+                userEmail: userInfoContext?.email
             }
         })
     }, [])
     return (
         <div>
-            <div style={{marginTop: '10px'}}>welcome, {userInfoContext?.userInfo.name}</div>
+            <div style={{marginTop: '10px'}}>welcome, {userInfoContext?.name}</div>
             <br />
             <Button onClick={goTo} className="link" style={{background:'rgb(14, 121, 28, 0.8)', color: 'white', marginTop: '25px'}}> Create New planner</Button>
 

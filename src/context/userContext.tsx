@@ -1,11 +1,11 @@
 import { createContext, useState, useEffect } from "react";
-import userauth from '../models/UserAuthModel'
-import api from '../api/api'
+import plannerModel from '../models/PlannerModel'
+
 import auth from '../utils/auth'
 export const UserContext = createContext({});
 
 export default function UserProvider({ children }: any) {
-  const [userInfoContext, setUserInfoContext] = useState<any>();
+  const [userInfoContext, setUserInfoContext] = useState<plannerModel>();
 
   useEffect(() => {
     auth
@@ -13,7 +13,6 @@ export default function UserProvider({ children }: any) {
       if(!data.data.error){
         setUserInfoContext(data.data)
       }else{
-        console.log('.')
       }
     })
     .then(() => {

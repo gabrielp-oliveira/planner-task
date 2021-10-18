@@ -11,7 +11,7 @@ import ErrorModal from './errorModal';
 
 
 
-export default function ChangePassword({ status, setStatus, email }: any) {
+export default function ChangePassword({ status, setStatus, email, token, setToken}: any) {
 
     const history = useHistory();
 
@@ -70,22 +70,26 @@ export default function ChangePassword({ status, setStatus, email }: any) {
 
         api.post('/auth/UpdatePassword', {
             email: userEmail,
+            token,
             password: {
                 first,
                 second
             }
         })
             .then((data) => {
+
                 if (!data.data.error) {
                     alert('everything ok, make login again')
                 } else {
                     setCallErrorModal(true)
                     setErrorInfo(data.data.error)
                     setloading(false)
+                    setToken('')
+                    return
                 }
             })
             .then(() => {
-                history.push('/')
+                history.push('/login')
                 document.location.reload();
                 closeModal()
             })
@@ -128,8 +132,8 @@ export default function ChangePassword({ status, setStatus, email }: any) {
                                 <TextField id="input-with-sx" label="Repeat Password" variant="standard" ref={password2} fullWidth type="password" />
                             </Box>
                         </div>
-                        <div>
-                            &nbsp;&nbsp;<Button variant="contained" color="primary" type="submit">Update Password</Button>&nbsp;&nbsp;
+                        <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                            <Button variant="contained" color="primary" type="submit">Update Password</Button>
                             <Button variant="contained" color="primary" onClick={closeModal}>cancel</Button>
                         </div>
                     </form>

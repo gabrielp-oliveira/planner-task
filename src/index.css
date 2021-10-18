@@ -38,7 +38,9 @@ code {
   box-shadow: inset 7px 10px 12px transparent;
  }
 
-
+.mat-tooltip {
+  font-size: 15px;
+}
 .target {
   -webkit-transition: border 0.1s linear, box-shadow 0.1s linear;
      -moz-transition: border 0.1s linear, box-shadow 0.1s linear;
@@ -111,7 +113,7 @@ code {
     width: 48%;
   }
 }
-@media (max-width: 700px) {
+@media (max-width: 750px) {
   .plannerList {
     display: none;
   }
@@ -123,6 +125,9 @@ code {
   }
   .stage, .infoPage {
     width: 100%
+  }
+  .stage {
+    margin-left: 0px;
   }
   .graph {
     width: 350px;
@@ -136,9 +141,8 @@ code {
     width: 100%;
     margin: 5px 0px;
   }
-  .infoPage > div {}
 }
-@media (min-width: 700px) {
+@media (min-width: 750px) {
   .plannerList {
     display: block;
   }
@@ -146,10 +150,13 @@ code {
     display: none;
   }
   main {
-    width: calc(100% - 200px);
+    width: calc(100% - 300px);
   }
   .stage, .infoPage {
-    width: calc(100% - 200px);
+    width: calc(100% - 300px);
+  }
+  .stage {
+    margin-left: 10px;
   }
   .graph {
     width: 500px;

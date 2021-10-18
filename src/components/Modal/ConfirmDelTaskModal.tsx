@@ -53,11 +53,10 @@ export default function ConfirmDelTaskModal({ status, setStatus, taskId }: any) 
                 if(data.data.error){
                     setinfoError(data.data.error)
                     setcallError(true)
+                    return
+                }else{
+                    closeModal()
                 }
-            })
-            .then(() => {
-                closeModal()
-                console.log('?')
             })
             .catch((error) => {
                 setinfoError(error)

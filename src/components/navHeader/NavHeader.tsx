@@ -6,6 +6,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import AddUserModal from '../Modal/AddUserModal'
+import DellUserModal from '../Modal/DellUserModal';
+import LeaveModal from '../Modal/LeaveModal';
 
 import api from '../../api/api'
 
@@ -15,7 +17,6 @@ import { faCog,  faUserAlt } from '@fortawesome/free-solid-svg-icons'
 import logout from '../../utils/logout';
 
 import { Link } from 'react-router-dom';
-import DellUserModal from '../Modal/DellUserModal';
 
 import { listenEvent } from '../../utils/socket'
 
@@ -25,6 +26,7 @@ function NavHeader({  users , userId, plannerId, userEmail, planner, getUserTask
     const [orderganizer, setOrderganizer] = useState<any>();
     const [adUserModal, callAddUserModal] = useState<boolean>();
     const [dellUserModal, callDellUserModal] = useState<boolean>();
+    const [leavePlannerModal, callLeavePlanner] = useState<boolean>();
     const [totalUserList, setTotalUserList] = useState<any>();
 
 
@@ -33,10 +35,14 @@ function NavHeader({  users , userId, plannerId, userEmail, planner, getUserTask
             setOrderganizer([
                 <MenuItem onClick={() => callAddUserModal(true)}> add new User </MenuItem>,
                 <MenuItem onClick={() => callDellUserModal(true)}> remove User </MenuItem>,
+                <MenuItem onClick={leavePlanner}> <span style={{color: 'red'}}>Leave Planner</span> </MenuItem>,
                 <MenuItem> <Link to={`/planner/id=${plannerId}/info`}> Info</Link></MenuItem>,
             ])
-    }, [users])
+    }, [plannerId, users])
 
+    const leavePlanner = () => {
+        callLeavePlanner(true)
+    };
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -71,7 +77,7 @@ function NavHeader({  users , userId, plannerId, userEmail, planner, getUserTask
             <div>
                 <span>
                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleUsersList}>
-                        <FontAwesomeIcon icon={faUserAlt} style={{ fontSize: "20px" }} />
+                        <FontAwesomeIcon icon={faUserAlt} style={{ fontSize: "25px" }} />
                     </Button>
                     <Menu
                         id="simple-menu"
@@ -87,7 +93,7 @@ function NavHeader({  users , userId, plannerId, userEmail, planner, getUserTask
                 </span>
                 <span>
                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                        <FontAwesomeIcon icon={faCog} style={{ fontSize: "20px" }} className="rotating" />
+                        <FontAwesomeIcon icon={faCog} style={{ fontSize: "25px" }} className="rotating" />
                     </Button>
                     <Menu
                         id="simple-menu"
@@ -102,6 +108,7 @@ function NavHeader({  users , userId, plannerId, userEmail, planner, getUserTask
                 </span>
             <AddUserModal  status={adUserModal} setStatus={callAddUserModal} plannerId={plannerId} userId={userId}/> 
             <DellUserModal  status={dellUserModal} setStatus={callDellUserModal} plannerId={plannerId} userList={totalUserList} userId={userId} userEml={userEmail}/> 
+            <LeaveModal  status={leavePlannerModal} setStatus={callLeavePlanner} plannerId={plannerId}/> 
             </div>
         </div>
     )

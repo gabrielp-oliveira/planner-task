@@ -25,7 +25,6 @@ function App() {
 
   useEffect(() => {
 
-    const userValid = { userValid: false }
     auth
       .then((data) => {
 
@@ -37,7 +36,6 @@ function App() {
         }
       }).catch((data) => {
         setAcess(false)
-        setUserInfoContext(userValid)
       })
 
   }, [setUserInfoContext])

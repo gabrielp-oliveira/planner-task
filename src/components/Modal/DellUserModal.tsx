@@ -15,7 +15,7 @@ import ErrorModal from './errorModal';
 
 export default function DellUserModal({ status, setStatus, plannerId, userId, userList, userEml }: any) {
 
-    const [user, setUser] = useState<any>()
+    const [user, setUser] = useState<any>('')
     const [callerrorModal, setcallerrorModal] = useState<boolean>()
     const [errorInfo, seterrorInfo] = useState<any>()
     const [List, setList] = useState<any>()
@@ -51,8 +51,12 @@ export default function DellUserModal({ status, setStatus, plannerId, userId, us
     function closeModal() {
         setStatus(false)
     }
-    function AddUser() {
-
+    function RemoveUser() {
+        if(user?.trim() == ''){
+            setcallerrorModal(true)
+            seterrorInfo('email its empty.')
+            return
+        }
         api.delete('/planner/removeUser', {
             params: {
                 user,
@@ -64,6 +68,8 @@ export default function DellUserModal({ status, setStatus, plannerId, userId, us
                 if (data.data.error) {
                     setcallerrorModal(true)
                     seterrorInfo(data.data.error)
+                }else{
+                    closeModal()
                 }
             })
             .catch((error) => {
@@ -109,7 +115,7 @@ export default function DellUserModal({ status, setStatus, plannerId, userId, us
                     <br />
                     <div className="taskModalButtons">
                         <div>
-                            <Button variant="contained" color="primary" onClick={AddUser}>Confirm</Button>
+                            <Button variant="contained" color="primary" onClick={RemoveUser}>Confirm</Button>
                             <Button variant="contained" color="secondary" onClick={closeModal} >cancel</Button>
                         </div>
                         <div></div>

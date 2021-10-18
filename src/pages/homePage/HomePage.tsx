@@ -42,7 +42,7 @@ function HomePage() {
                     <Link to="/register">register</Link>
                 </div>
             </div>
-                <div className="" style={{ maxHeight: '700px', padding: '10px'}}>
+                <div className="home">
                     <h3>Just a simple Planner</h3>
                     <div>
                         <p>inspired in the Microsoft Planner, this tool helps you  to create a  simple and visual way to organize work that is updated in real time for the entire team.</p>
@@ -71,9 +71,9 @@ function HomePage() {
                     </div>
                     <div style={{ background: "#171245" }}>
                         <div className="about">
-                            <h2 className="">About</h2>
-                            <span className="">"Use my knowledge to improve and test my skills as a <span className="textTarget">programmer</span> ".🚀</span>
-                            <p className="">This project is part of my <a href="https://gabrielp-oliveira.github.io/" target="_blank" rel="noreferrer"> <span className="textTarget">
+                            <h2>About</h2>
+                            <span className="my">"Use my knowledge to improve and test my skills as a <span className="textTarget">programmer</span> ".🚀</span>
+                            <p>This project is part of my <a href="https://gabrielp-oliveira.github.io/" target="_blank" rel="noreferrer"> <span className="textTarget">
                                 portfolio</span></a>, so feel free to get in touch for feedback on the code, structure or other reason that will help me become a better programmer!</p>
                             <br />
                             <div>
@@ -93,19 +93,18 @@ function HomePage() {
                     <div style={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap', paddingBottom: '50px'}}>
 
                         <div className="functionalities">
-                            <h2 className="">Functionalities</h2>
-                            <div className="">
-                                <li className="">Register and login a personal account.</li>
-                                <li className="">Saved all the tasks and planner in a database</li>
-                                <li className="">update all changes to everyone at the same time.</li>
-                                <li className="">limit the acess of a user depending of her acess.</li>
-                                <li className="">get the info of the the planner aand your tasks, like the finished and in progress tasks and  users taks.</li>
+                            <h2 >Functionalities</h2>
+                            <div >
+                                <li >Register and login a personal account.</li>
+                                <li >Saved all the tasks and planner in a database</li>
+                                <li >update all changes to everyone at the same time.</li>
+                                <li >limit the acess of a user depending of her acess.</li>
                             </div>
                         </div>
 
 
                         <div className="observations">
-                            <h2 className="">Observations</h2>
+                            <h2 >Observations</h2>
 
                             <p>you can find the front-end repository <a href="https://github.com/gabrielp-oliveira/planner-task">here</a>, and the back-end <a href="https://github.com/gabrielp-oliveira/planner-task-node">here</a>.</p>
                             <p>This app is hosted on heroku free plan, meaning that on the initial load, the server mat neet to start which can cause a delay.</p> </div>

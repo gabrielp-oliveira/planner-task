@@ -51,7 +51,11 @@ export default function AddUserModal({ status, setStatus, plannerId, userId }: a
         setStatus(false)
     }
     function AddUser() {
-
+        if(user?.email?.trim() == ''){
+            setcallerrorModal(true)
+            seterrorInfo('email its empty.')
+            return
+        }
         api.post('/planner/newUser', {
             params: {
                 user,
@@ -63,6 +67,8 @@ export default function AddUserModal({ status, setStatus, plannerId, userId }: a
                 if(data.data.error){
                     setcallerrorModal(true)
                     seterrorInfo(data.data.error)
+                }else{
+                    closeModal()
                 }
             })
             .catch((error) => {
@@ -83,8 +89,8 @@ export default function AddUserModal({ status, setStatus, plannerId, userId }: a
             >
                 <Box sx={style}  className='taskModal'>
 
-                    <h3>New user</h3>
-
+                    <h2>New user</h2>
+                    <br />
                     <div className="newUserModalHeader">
                         <TextField id="name" label="email" variant="outlined" type="email"
                             onChange={(e) => setUser({
@@ -118,7 +124,7 @@ export default function AddUserModal({ status, setStatus, plannerId, userId }: a
                     </div>
 
                     <br />
-                    <div>
+                    <div style={{display:'flex', justifyContent: 'space-around'}}>
                         <Button variant="contained" color="primary" onClick={AddUser}>Confirm</Button>
                         <Button variant="contained" color="secondary" onClick={closeModal} >cancel</Button>
                     </div>

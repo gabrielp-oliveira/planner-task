@@ -7,6 +7,9 @@
     padding: 0px 20px;
     margin-top: -1px;
     background: linear-gradient(rgb(47, 41, 112) 0%, rgb(23, 18, 69) 100%);    box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.4);
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+
   }
   .navHeader  a {
   color: white;

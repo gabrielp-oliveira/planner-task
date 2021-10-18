@@ -49,7 +49,7 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
         step(1)
     }
 
-
+    
     function createNewStage() {
         if (StageName?.trim() !== undefined || StageDesc?.trim() !== undefined) {
 
@@ -119,7 +119,7 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
                             <FontAwesomeIcon icon={faBackward} />
                         </Button>
                         <Button onClick={done} variant="contained" color="primary">
-                            <FontAwesomeIcon icon={faForward} />
+                            Done !
                         </Button>
                     </div>
                     <div className="buttons">
@@ -128,7 +128,7 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
                     </div>
 
                 </div>
-
+                <span>you can drag and drop the stages to reorder then.</span>
                 <span className="columnList">
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="todo" direction="horizontal">
@@ -144,7 +144,7 @@ function NewStage({ formInfo, step, currentInfo, status }: any) {
                                                         {...provided.dragHandleProps}
                                                     >
                                                         <Tooltip
-                                                            title={StageDesc ? StageName + ' - ' + StageDesc : ''} placement="top-end">
+                                                            title={<span className="mat-tooltip">{StageDesc ? StageName + ' - ' + StageDesc : ''}</span>} placement="top-end">
                                                             <div>
                                                                 <span>
                                                                     {stringFormat(StageName, 11)}

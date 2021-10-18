@@ -46,15 +46,11 @@
     font-weight: 600;
 } */
 
-.accountableList >div:first-child{
-    width: 50%;
-}
 .accountableList {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    flex-wrap: wrap;
 }
 .accountable {
     border: 1px solid rgb(0, 0, 0, 0.3);

@@ -25,11 +25,10 @@ function SideBarResp({ planners }: any) {
           role="presentation"
           onClick={toggleDrawer(anchor, false)}
           onKeyDown={toggleDrawer(anchor, false)}
-          style={{marginTop:"80px", paddingLeft: '30px'}}
+          style={{width: '250px'}}
         >
           <List>
-                <div className="SideNav" style={{width: "200px" }}>
-                    <span> <a></a></span>
+                <div className="SideNav">
                     {planners}
                 </div>
           </List>

@@ -20,6 +20,7 @@ function Forgot() {
 
     const [callErrorModal, setCallErrorModal] = useState<boolean>()
     const [errorInfo, setErrorInfo] = useState<string>()
+    const [tokenValue, setTokenValue] = useState<any>()
     const [useToken, setuseToken] = useState<boolean>(false)
     const [callChangePassword, setCallChangePassword] = useState<boolean>(false)
 
@@ -39,7 +40,6 @@ function Forgot() {
                 if (!data.data.error) {
                     setuseToken(true)
                 } else {
-                    console.log(data.data.error)
                     setErrorInfo(data.data.error.error)
                     setCallErrorModal(true)
                 }
@@ -54,9 +54,9 @@ function Forgot() {
         e.preventDefault()
         const emailValue = emailCheck.current?.children[1].children[0]?.value.trim()
         const tokenValue = token.current?.children[1].children[0]?.value.trim().toLowerCase()
-        
+        setTokenValue(tokenValue)
         if (emailValue !== '' && tokenValue !== '') {
-            api.post('/auth/forgot', {
+            api.post('/auth/confirmToken', {
                 email: emailValue,
                 token: tokenValue
             })
@@ -128,7 +128,7 @@ function Forgot() {
                 </div>}
             </div>
             <ErrorModal status={callErrorModal} setStatus={setCallErrorModal} info={errorInfo} />
-            <ChangePassword status={callChangePassword} setStatus={setCallChangePassword} email={emailCheck.current?.children[1].children[0]?.value.trim()} />
+            <ChangePassword status={callChangePassword} setStatus={setCallChangePassword} email={emailCheck.current?.children[1].children[0]?.value.trim()} token={tokenValue} setToken={setTokenValue}/>
 
         </>
     )

@@ -2,11 +2,9 @@ import React, { useEffect, useState, useRef, useContext } from 'react'
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd"
 
 import './Planner.css'
-import '../../components/column/column.css'
 import '../../components/task/task.css'
 import { UserContext } from '../../context/userContext'
 
-import Task from '../../components/task/task'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faPlus, faUserAlt } from '@fortawesome/free-solid-svg-icons'
@@ -20,15 +18,16 @@ import { emitEvent, listenEvent, RemoveEvent } from '../../utils/socket'
 
 import NewColumnModal from '../../components/Modal/NewColumnModal'
 import NewTaskModal from '../../components/Modal/NewTaskModal'
-
 import InfoModal from '../../components/Modal/InfoModal'
 import ErrorModal from '../../components/Modal/errorModal'
 
 import columnModel from '../../models/columnModel'
 import NavHeader from '../../components/navHeader/NavHeader'
-import taskModel from '../../models/taskModel'
-import ts from 'typescript'
+import Task from '../../components/task/task'
 import SideBar from '../../components/sidebar/SideBar'
+import taskModel from '../../models/taskModel'
+import { createBrowserHistory } from 'history'
+
 
 function Planner({ props }: any) {
     const { userInfoContext, setUserInfoContext } = useContext<any>(UserContext)
@@ -42,7 +41,7 @@ function Planner({ props }: any) {
     const [createNewTask, setCreateNewTask] = useState<boolean>(false);
     const [callError, setcallError] = useState<boolean>(false);
     const [userTasks, getUserTasks] = useState<boolean>(false);
-    const [columnName, setcolumnName] = useState<string>('');
+    const [GetPlannerInfo, SetGetPlannerInfo] = useState<any>();
     const [userEmail, getUserEmail] = useState<string>('');
     const [columnId, setcolumnId] = useState<string>('');
     const [users, setUsers] = useState<any>();
@@ -87,12 +86,11 @@ function Planner({ props }: any) {
             setColumns(pln)
         })
         listenEvent('updateTaskInfo', (data: any, graphValues: any) => {
-            console.log(data.columns)
             setColumns(data.columns)
         })
         listenEvent('newTask', (dat: any) => {
-            if (userInfoContext?.userInfo._id !== undefined &&
-                (dat.userId !== userInfoContext?.userInfo._id)) {
+            if (userInfoContext?._id !== undefined &&
+                (dat.userId !== userInfoContext?._id)) {
                 setInfoModal(true)
                 setModalMessage(dat)
             }
@@ -105,16 +103,16 @@ function Planner({ props }: any) {
 
         listenEvent('restoreTask', (data: any) => {
             const { tasksRestored } = data
-            if(tasksRestored){                
+            if (tasksRestored) {
                 setColumns(tasksRestored)
             }
         })
-    }, [userInfoContext?.userInfo._id])
+    }, [userInfoContext?._id])
 
 
     function updateTaskPosition(col: any) {
         api.put('/task/updateTaskPosition', {
-            params: { columns: col, plannerId, userId: userInfoContext?.userInfo?._id }
+            params: { columns: col, plannerId, userId: userInfoContext?._id }
         })
     }
 
@@ -166,17 +164,22 @@ function Planner({ props }: any) {
     async function initializerPlanner(id: string) {
         return authPlanner(id)
             .then((data: any) => {
-                console.log(data.data.planner)
                 if (data.data.error) {
                     setcallError(true)
                     setErrorInfo(data.data.error)
-                    // logout()
+                    createBrowserHistory().push('/profile')
+                    document.location.reload();
                 } else {
                     setColumns(data.data.planner?.stages)
                     setPlannerId(data.data.planner._id)
                     setUsers(data.data.planner.users)
                     emitEvent('exitRoom', { plannerId: data.data.planner._id })
-                    emitEvent('joinRoom', { plannerId: data.data.planner._id, userId: userInfoContext?.userInfo?._id })
+                    emitEvent('joinRoom', { plannerId: data.data.planner._id, userId: userInfoContext?._id })
+                    SetGetPlannerInfo(<h1 className="title"
+                        onClick={() => initializerPlanner(id)}>
+                        {data.data.planner.name}
+                        </h1>)
+
                     return data
                 }
             })
@@ -184,6 +187,8 @@ function Planner({ props }: any) {
                 if (data.data.error) {
                     setcallError(true)
                     setErrorInfo(data.data.error)
+                    createBrowserHistory().push('/profile')
+                    document.location.reload();
                 }
             })
     }
@@ -199,18 +204,19 @@ function Planner({ props }: any) {
             })
                 .then((data: any) => {
                     setColumns(data.data.planner.stages)
+                    getUserTasks(true)
                 })
-
         }
-    }, [userEmail])
+    }, [plannerId, userEmail])
 
     return (
         <>
-            <NavHeader users={users} plannerId={plannerId} userId={userInfoContext?.userInfo._id}
-                userEmail={userInfoContext?.userInfo.email} planner={true} getUserTasks={getUserTasks} participantEmail={getUserEmail}
+            <NavHeader users={users} plannerId={plannerId} userId={userInfoContext?._id}
+                userEmail={userInfoContext?.email} planner={true} getUserTasks={getUserTasks} participantEmail={getUserEmail}
+                plannerInfo={GetPlannerInfo}
             ></NavHeader>
             <div style={{ display: 'flex', height: 'calc(100%  - 80px)', width: '100%' }}>
-                <SideBar />
+                <SideBar plannerInfo={GetPlannerInfo}/>
 
                 <div className="stage">
                     <DragDropContext

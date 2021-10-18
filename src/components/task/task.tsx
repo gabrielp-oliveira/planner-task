@@ -3,8 +3,9 @@ import TaskModal from '../Modal/TaskModal';
 import './task.css'
 import stringFormat from '../../utils/stringFormat'
 import FormatDate from '../../utils/formatDate'
+import { Tooltip } from '@material-ui/core';
 
-function Task({ info, classN, refe,  users}: any) {
+function Task({ info, classN, refe, users }: any) {
 
     const [date, setDate] = useState<string>()
     const [dateDetails, setDateDetails] = useState<string>()
@@ -38,12 +39,14 @@ function Task({ info, classN, refe,  users}: any) {
                 onClick={() => TaskInfoDetails(info._id)}
             >
                 <div className={`taskCard  ${info.status}`} id={info._id}>
-                    <strong>{info.title? stringFormat(info.title, 15) : '...'}</strong>
-                    <span>{info.description? stringFormat(info.description, 20): '...'}</span>
+                    <Tooltip title={info.title?.length >=25? <span style={{ fontSize: '16px'}}>{info.title}</span>: ''}>
+                        <strong>{info.title? stringFormat(info.title, 25) : '...'}</strong>
+                    </Tooltip>
+                    <span>{info.description ? stringFormat(info.description, 25) : '...'}</span>
                     <span>{FormatDate(date, true)}</span>
                 </div>
             </div>
-            <TaskModal status={callTaskModal} setStatus={setCallTaskModal} taskId={taskId} users={users}/>
+            <TaskModal status={callTaskModal} setStatus={setCallTaskModal} taskId={taskId} users={users} />
         </>
 
     )

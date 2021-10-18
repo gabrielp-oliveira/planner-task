@@ -82,20 +82,18 @@ function AddParticipants({ formInfo, stage, currentInfo }: any) {
 
                 <div>
                     <div>
-                        <TextField type="text" ref={email} label="email of the participant"
+                        <TextField type="text" ref={email} label={<span className="text">email of the participant</span>}
                             fullWidth
                             value={currentEmail} onChange={(e) => setCurrentEmail(e.target.value)
                             } />
                     </div>
                     <div>
                         <TextField
-                            id="outlined-select-currency"
                             select
-                            label="acess of the participant"
                             name="acess"
                             fullWidth
                             onChange={(e: any) => setAcess(e.target.value)}
-                            helperText="Please select your currency"
+                            helperText={<span className="text">Please select the acess for the participant</span>}
                         >
 
                             <MenuItem key='intermediate' value='intermediate'>

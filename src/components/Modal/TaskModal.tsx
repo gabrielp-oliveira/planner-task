@@ -118,8 +118,6 @@ export default function TaskModal({ status, setStatus, taskId, users }: any) {
             }
         })
         .then((dat: any) => {
-                console.log('dat')
-                console.log(dat)
                 if (!dat.data.error) {
                     setShowTitleInput(false)
                     setShowDescInput(false)

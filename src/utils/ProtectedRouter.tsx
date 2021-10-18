@@ -19,7 +19,6 @@ function ProtectedRouter({ isAuth, redirect, Comp, path }: prop) {
                 setAcrss(false)
             }
         }else{
-            console.log(acess)
         }
         // setAcrss(undefined)
     }, [isAuth])

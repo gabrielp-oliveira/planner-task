@@ -57,7 +57,6 @@ export default function DeleteTaskModal({ delTaskStatus, taskId, setDelTaskStatu
                 setcallError(true)
                 setErrorInfo(dat.data.error)
             }else{
-                console.log(dat)
                 closeModal()
             }
         })

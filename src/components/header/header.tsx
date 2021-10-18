@@ -17,7 +17,7 @@ function header() {
             </p>
             <div>
                 <Button onClick={() => logout()}>
-                    <FontAwesomeIcon icon={faSignOutAlt} />
+                    <FontAwesomeIcon icon={faSignOutAlt} style={{fontSize: "30px"}}/>
                 </Button>
             </div>
         </header>

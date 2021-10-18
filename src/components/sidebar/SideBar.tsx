@@ -7,17 +7,18 @@ import Tooltip from '@material-ui/core/Tooltip';
 import FormatDate from '../../utils/formatDate';
 import SideBarResp from '../sideBarResp/sideBarResp';
 
-function SideBar() {
+function SideBar({ plannerInfo }: any) {
 
     const { userInfoContext, setUserInfoContext } = useContext<any>(UserContext)
     const [showPlanners, setShowPlanners] = useState<any>([])
 
     useEffect(() => {
         setShowPlanners([])
-        userInfoContext?.userInfo?.planners?.forEach((element: any) => {
+        setShowPlanners([<span>{plannerInfo}</span>])
+        userInfoContext?.planners?.forEach((element: any) => {
 
             setShowPlanners((oldArray: any) => [...oldArray,
-            <div>
+            <div className="plannerItem">
                 <Tooltip
                     title={element.name?.length > 12 ? element.name : ''} placement="top-end">
                     <Link
@@ -27,8 +28,7 @@ function SideBar() {
                 </Tooltip>
             </div>])
         })
-
-    }, [userInfoContext, setUserInfoContext])
+    }, [userInfoContext, setUserInfoContext, plannerInfo])
 
 
 
@@ -37,7 +37,8 @@ function SideBar() {
             <div className="plannerList">
                 <div>
 
-                    <br />
+                {/* <span>{plannerInfo}</span> */}
+                <br />
                 </div>
                 <div>{showPlanners}</div>
             </div>

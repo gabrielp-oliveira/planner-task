@@ -1,10 +1,11 @@
-import React, { useState,  useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Modal.css'
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import ErrorModal from './errorModal';
 
@@ -12,6 +13,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 import logout from '../../utils/logout'
+import stringFormat from '../../utils/stringFormat'
+
 import api from '../../api/api'
 
 
@@ -24,15 +27,15 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
     const [width, setWidth] = useState<number>(650)
 
     useEffect(() => {
-        if(window.screen.width < 650){
-            setWidth(window.screen.width-20)
+        if (window.screen.width < 650) {
+            setWidth(window.screen.width - 20)
         }
     }, [])
 
-    window.addEventListener('resize',(e: any) => {
-        if(e.target.innerWidth < 650){
-            setWidth(e.target.innerWidth-20)
-        }else{
+    window.addEventListener('resize', (e: any) => {
+        if (e.target.innerWidth < 650) {
+            setWidth(e.target.innerWidth - 20)
+        } else {
             setWidth(650)
         }
     })
@@ -82,15 +85,15 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
             if (data.data.error) {
                 setcallError(true)
                 setErrorInfo(data.data.error)
-            }else{
+            } else {
                 setTask({})
                 setUsers([{}])
                 setAccountableList([])
-                closeModal()   
+                closeModal()
             }
         })
-        .catch((error: any) => {
-            setErrorInfo(error)
+            .catch((error: any) => {
+                setErrorInfo(error)
             })
 
 
@@ -133,7 +136,7 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
                     <div>
                         <div className="inputs">
 
-                            <TextField id="tasktitle" label="title" variant="outlined" 
+                            <TextField id="tasktitle" label="title" variant="outlined"
                                 onChange={(e) => setTask({
                                     description: task?.description,
                                     accountable: task?.accountable,
@@ -149,9 +152,11 @@ export default function NewTask({ getUsers, status, setStatus, Columnid, planner
                         </div>
 
                         <div className="accountableList">{accountableList.map((el: any) => <div >
-                            <span className="accountable">
-                                <span>{el}</span>&nbsp;&nbsp; <span className={el} onClick={() => removeItemOnce(el)}><FontAwesomeIcon icon={faTimesCircle}></FontAwesomeIcon></span>
-                            </span>
+                            <Tooltip title={el.length > 12 ? el : ''} placement="top-end">
+                                <span className="accountable">
+                                    <span>{stringFormat(el, 10)}</span>&nbsp;&nbsp; <span className={el} onClick={() => removeItemOnce(el)}><FontAwesomeIcon icon={faTimesCircle}></FontAwesomeIcon></span>
+                                </span>
+                            </Tooltip>
                         </div>
                         )}</div>
 
