@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { UserContext } from '../../context/userContext'
 import api from '../../api/api';
 import ErrorModal from './errorModal';
-import { createBrowserHistory } from 'history'
+import { useHistory } from "react-router-dom";
 
 
 export default function LeaveModal({ status, setStatus, plannerId }: any) {
@@ -19,6 +19,8 @@ export default function LeaveModal({ status, setStatus, plannerId }: any) {
     const [callError, setcallError] = useState<boolean>()
     const [errorInfo, setErrorInfo] = useState<string>()
     const planner = useRef<any>(null);
+    const history = useHistory();
+
     const { userInfoContext, setUserInfoContext } = useContext<any>(UserContext)
 
     useEffect(() => {
@@ -55,7 +57,7 @@ export default function LeaveModal({ status, setStatus, plannerId }: any) {
                         setErrorInfo(data.data.error)
                         setcallError(true)
                     }else{
-                        createBrowserHistory().push('/profile')
+                        history.push('/profile')
                         document.location.reload();
                     }
                 })

@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Link } from 'react-router-dom'
 import api from '../../../api/api'
-import auth from '../../../utils/auth'
 
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';

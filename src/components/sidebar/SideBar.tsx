@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { UserContext } from '../../context/userContext'
 import stringFormat from '../../utils/stringFormat';
 import Tooltip from '@material-ui/core/Tooltip';
-import FormatDate from '../../utils/formatDate';
 import SideBarResp from '../sideBarResp/sideBarResp';
 
 function SideBar({ plannerInfo }: any) {
@@ -20,7 +19,7 @@ function SideBar({ plannerInfo }: any) {
             setShowPlanners((oldArray: any) => [...oldArray,
             <div className="plannerItem">
                 <Tooltip
-                    title={element.name?.length > 12 ? element.name : ''} placement="top-end">
+                    title={element.name?.length > 15 ? <span className="text">{element.name}</span>  : ''} placement="top-end">
                     <Link
                         to={`../../planner/id=${element.plannerId}`} key={element.plannerId}>
                         {stringFormat(element.name, 15)}

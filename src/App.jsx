@@ -6,9 +6,8 @@ import Planner from './pages/planner/Planner';
 import InfoPage from './pages/info/infoPage'
 import Profile from './pages/Profile/ProfilePage';
 import Forgot from './pages/auth/ForgotPassword/Forgot'
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import ProtectedRouter from './utils/ProtectedRouter';
-// import { createBrowserHistory } from 'history'
 import HomePage from './pages/homePage/HomePage';
 import verifyAccount from './pages/auth/verifyAccount/verifyAccount';
 import NewPlannerForm from './components/newPlannerForm/newPlannerForm'

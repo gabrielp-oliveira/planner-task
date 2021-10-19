@@ -1,7 +1,7 @@
 .login {
     border: 1px solid rgb(0, 0, 0, 0.3);
     min-width: 300px;
-    height: 320px;
+    height: 360px;
     align-self: center;
     display: flex;
     flex-direction: row;

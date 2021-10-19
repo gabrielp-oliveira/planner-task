@@ -14,11 +14,11 @@
 }
 .home> div {
     font-family: 'Open Sans', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
 }
 .home> h3 {
     font-family: 'Roboto', sans-serif;
-    font-size: 30px;
+    font-size: 28px;
     margin-bottom: 10px;
     color: rgb(14, 5, 78);
 }
@@ -118,7 +118,7 @@ a .textTarget:hover {
     padding-bottom: 20px;
     margin-top: -1px;
     padding: 10px;
-    font-size: 18px;
+    font-size: 16px;
 }
 .my {
     font-family: 'Open Sans', sans-serif;
@@ -166,7 +166,7 @@ a .textTarget:hover {
     flex-wrap: wrap;
     margin-top: 10px;
     align-items: flex-start;
-    font-size: 18px;
+    font-size: 16px;
 }
 .functionalities > div  > li {
     margin: 3px 0px;
@@ -179,7 +179,7 @@ a .textTarget:hover {
 }
 .observations > p {
     margin-top: 20px;
-    font-size: 18px;
+    font-size: 16px;
 }
  .observations > h2 {
     font-size: 25px;

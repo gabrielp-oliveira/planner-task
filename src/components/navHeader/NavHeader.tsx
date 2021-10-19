@@ -77,7 +77,7 @@ function NavHeader({  users , userId, plannerId, userEmail, planner, getUserTask
             <div>
                 <span>
                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleUsersList}>
-                        <FontAwesomeIcon icon={faUserAlt} style={{ fontSize: "25px" }} />
+                        <FontAwesomeIcon icon={faUserAlt} style={{ fontSize: "23px" }} />
                     </Button>
                     <Menu
                         id="simple-menu"
@@ -93,7 +93,7 @@ function NavHeader({  users , userId, plannerId, userEmail, planner, getUserTask
                 </span>
                 <span>
                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                        <FontAwesomeIcon icon={faCog} style={{ fontSize: "25px" }} className="rotating" />
+                        <FontAwesomeIcon icon={faCog} style={{ fontSize: "23px" }} className="rotating" />
                     </Button>
                     <Menu
                         id="simple-menu"

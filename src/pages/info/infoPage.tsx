@@ -42,11 +42,12 @@ function InfoPage() {
     useEffect(() => {
 
         const tasksStatus: graphValuesModel = { none: 0, interrupted: 0, 'waiting more details': 0, priority: 0, progressing: 0 }
-        const queryString = window.location.pathname;
+        const queryString = window.location.hash;
         const start = queryString.search('=') + 1
         const end = queryString?.lastIndexOf('/')
         authPlanner(queryString.substring(start, end))
             .then((data: any) => {
+                console.log(data)
                 emitEvent('exitRoom', { plannerId: data.data.planner?._id })
                 emitEvent('joinRoom', { plannerId: data.data.planner?._id })
                 setId(data.data.planner?._id)

@@ -26,14 +26,14 @@ import NavHeader from '../../components/navHeader/NavHeader'
 import Task from '../../components/task/task'
 import SideBar from '../../components/sidebar/SideBar'
 import taskModel from '../../models/taskModel'
-import { createBrowserHistory } from 'history'
-
+import { useHistory } from "react-router-dom";
 
 function Planner({ props }: any) {
     const { userInfoContext, setUserInfoContext } = useContext<any>(UserContext)
 
 
     const [plannerId, setPlannerId] = useState<string>('')
+    const history = useHistory();
 
     const [confirmDelColum, setConfirmDelColum] = useState<boolean>(false);
     const [createNewColumn, setCreateNewColumn] = useState<boolean>(false);
@@ -55,7 +55,7 @@ function Planner({ props }: any) {
 
     useEffect(() => {
 
-        const queryString = window.location.pathname;
+        const queryString = window.location.hash;
 
         const start = queryString.search('=') + 1
         const end = queryString.length
@@ -167,7 +167,7 @@ function Planner({ props }: any) {
                 if (data.data.error) {
                     setcallError(true)
                     setErrorInfo(data.data.error)
-                    createBrowserHistory().push('/profile')
+                    history.push('/profile')
                     document.location.reload();
                 } else {
                     setColumns(data.data.planner?.stages)
@@ -187,7 +187,7 @@ function Planner({ props }: any) {
                 if (data.data.error) {
                     setcallError(true)
                     setErrorInfo(data.data.error)
-                    createBrowserHistory().push('/profile')
+                    history.push('planner-task/#/profile')
                     document.location.reload();
                 }
             })

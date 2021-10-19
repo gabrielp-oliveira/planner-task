@@ -74,7 +74,7 @@ function Register() {
         })
             .then((data) => {
                 if (!data.data.error) {
-                    history.push('/verifyAccount')
+                    history.push('planner-task/#/verifyAccount')
                     document.location.reload();
                     setloading(false)
                 } else {

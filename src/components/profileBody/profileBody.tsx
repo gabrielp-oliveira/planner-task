@@ -29,8 +29,7 @@ function ProfileBody() {
                 <Switch>
 
 
-                    <ProtectedRouter path="/profile/"
-                        Comp={Welcome} isAuth={true} redirect="/" />
+                    <Welcome />
                 </Switch>
 
             </Router>
@@ -45,7 +44,7 @@ const Welcome = ({name, email}: any) => {
     const history = useHistory();
     
     function goTo(){
-        history.push('/profile/newPlanner')
+        history.push('/planner-task/#/profile/newPlanner')
         document.location.reload(); 
     }
     const { userInfoContext } = useContext<any>(UserContext)

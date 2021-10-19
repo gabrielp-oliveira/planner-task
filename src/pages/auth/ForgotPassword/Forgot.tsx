@@ -5,12 +5,11 @@ import { Link } from 'react-router-dom'
 import ErrorModal from '../../../components/Modal/errorModal';
 import ChangePassword from '../../../components/Modal/changePassword'
 
-import { faEnvelope, faUnlock, faUserAlt } from '@fortawesome/free-solid-svg-icons'
+import {  faUnlock, faUserAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Box from '@material-ui/core/Box';
 
 import api from '../../../api/api'
-import { createBrowserHistory } from 'history'
 import { Button, TextField } from '@material-ui/core';
 
 function Forgot() {
