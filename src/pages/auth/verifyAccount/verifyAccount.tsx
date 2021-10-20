@@ -41,7 +41,7 @@ function Confirmation() {
                 .then((data) => {
                     if(!data.data.error){
                         alert('everything ok, make login again')
-                        history.push('planner-task/#/login')
+                        history.push('/login')
                         document.location.reload();
                         setCallErrorModal(false) 
                     }else{

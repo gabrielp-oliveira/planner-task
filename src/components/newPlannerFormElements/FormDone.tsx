@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from "react-router-dom";
 
 function FormDone({ formInfo, stage }: any) {
+    const history = useHistory();
 
     const [timer, setTimer] = useState<any>(5)
 
@@ -9,7 +11,7 @@ function FormDone({ formInfo, stage }: any) {
         setInterval(() => {
             setTimer(timer - 1)
             if(timer === 1){
-                window.location.replace(origin + '/profile');
+                history.push('/profile')
             }
         }, 1000)  
     }, [timer])

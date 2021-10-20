@@ -26,7 +26,7 @@ function ProfilePage() {
                 } else {
                     logout()
                 }
-            }, 100);
+            }, 3000);
         })
 
             .catch((error) => {
