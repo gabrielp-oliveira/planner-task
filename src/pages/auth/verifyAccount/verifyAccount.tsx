@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-// import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from "react-router-dom";
 import ErrorModal from '../../../components/Modal/errorModal'
 
@@ -30,7 +30,7 @@ function Confirmation() {
     }, [])
     function verifyEmail (e: any){
         e.preventDefault()
-        // setloading(true)
+        setloading(true)
         const emailValue = email.current?.children[1].children[0]?.value.trim()
         const tokenValue = code.current?.children[1].children[0]?.value.trim()
         if (emailValue !== '' && tokenValue !== '') {
@@ -58,6 +58,7 @@ function Confirmation() {
         } else {
             setCallErrorModal(true)
             setErrorInfo('some input is empty, please fill all the data.')
+            setloading(false)
         }
 
     }
@@ -70,7 +71,7 @@ function Confirmation() {
                     <Link to="/register">register</Link>
                 </div>
             </div>
-            <div className="login">
+            {loading? <CircularProgress style={{ alignSelf: 'center', marginTop: '50px' }} /> : <div className="login">
                 <div className="form">
 
                     <div>
@@ -101,7 +102,7 @@ function Confirmation() {
                     </form>
 
                 </div>
-            </div>
+            </div>}
             <ErrorModal status={callErrorModal} setStatus={setCallErrorModal} info={errorInfo} />
             
         </ >

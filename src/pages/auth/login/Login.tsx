@@ -64,6 +64,7 @@ function Login() {
         } else {
             setCallErrorModal(true)
             setErrorInfo('some input is empty, please fill all the data.')
+            setloading(false)
         }
     }
 

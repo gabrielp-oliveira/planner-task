@@ -29,7 +29,7 @@ function Register() {
 
     function register(e: any) {
         e.preventDefault()
-        // setloading(true)
+        setloading(true)
         const emailValue = email.current?.children[1].children[0]?.value.trim()
         const nameValue = name.current?.children[1].children[0]?.value.trim()
         const passwordValue1 = password.current?.children[1].children[0]?.value.trim()
