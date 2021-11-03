@@ -4,10 +4,7 @@ import { Link } from 'react-router-dom'
 
 import Planner from '../../assets/svg/planner.svg'
 import task from '../../assets/svg/task.svg'
-import taskSteps from '../../assets/svg/taskSteps.svg'
-import Curve from '../../assets/shapes/curve'
 import Waves from '../../assets/shapes/Waves'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import { faLaptop } from '@fortawesome/free-solid-svg-icons'
@@ -52,8 +49,10 @@ function HomePage() {
                     <br />
                     <div>
                         <p>create and organize your demands and tasks according to your <span className="textTarget"> team's </span> needs.</p>
-                        <img src={Planner} alt="" width={width} className="iconAbout" />
+                        <br />
                         <p>solutions and task changes will be <span className="textTarget">updated in real time</span>, so even working <span className="textTarget">remotely and concurrently</span> with other people, the planner will update to <span className="textTarget">everyone</span> at the same time.</p>
+                        <br />
+                        <img src={Planner} alt="" width={width} className="iconAbout" />
                     </div>
                 </div>
             <div className="bodyHome">
@@ -63,8 +62,6 @@ function HomePage() {
                         marginTop: '-1px',
                         background: "linear-gradient(180deg, rgba(47,41,112,1) 0%, rgba(23,18,69,1) 100%)"
                     }}>
-                        <br />
-                        <br />
                         <br />
                         <br />
                         <br />
